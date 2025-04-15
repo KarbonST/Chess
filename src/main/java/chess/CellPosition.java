@@ -6,34 +6,34 @@ package chess;
 public class CellPosition {
 
     /**
-     * Координата X.
+     * Номер строки.
      */
-    private final int x;
+    private final int row;
 
     /**
-     * Координата Y.
+     * Номер столбца.
      */
-    private final int y;
+    private final int col;
 
-    CellPosition(int X, int Y){
-        this.x = X;
-        this.y = Y;
+    CellPosition(int row, int col){
+        this.row = row;
+        this.col = col;
     }
 
     /**
-     * Получить координату Х.
-     * @return координата Х.
+     * Получить номер строки.
+     * @return номер строки.
      */
-    public int getX(){
-        return this.x;
+    public int getRow(){
+        return this.row;
     }
 
     /**
-     * Получить координату Y.
-     * @return координата Y.
+     * Получить номер столбца.
+     * @return номер столбца.
      */
-    public int getY(){
-        return this.y;
+    public int getCol(){
+        return this.col;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CellPosition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CellPosition cellPosition = (CellPosition) o;
-        return x == cellPosition.x &&
-                y == cellPosition.y;
+        return row == cellPosition.row &&
+                col == cellPosition.col;
     }
 }

@@ -45,6 +45,10 @@ public enum Direction {
     NORTHWEST;
 
     /**
+     * Смещение по Х
+     */
+
+    /**
      * Противоположное направление.
      */
     private Direction opposite;
