@@ -1,6 +1,0 @@
-
-/**
- * Доска.
- */
-public class Desk {
-}
