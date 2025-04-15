@@ -1,5 +1,0 @@
-/**
- * Команда.
- */
-public class Team {
-}

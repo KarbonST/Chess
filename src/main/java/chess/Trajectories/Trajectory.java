@@ -1,4 +1,4 @@
-package Trajectories;
+package chess.Trajectories;
 
 /**
  * Траектория.
