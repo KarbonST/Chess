@@ -1,3 +1,6 @@
+/**
+ * Позиция ячейки.
+ */
 public class CellPosition {
 
     // X и Y координаты ячейки
@@ -5,9 +8,9 @@ public class CellPosition {
     private final int y;
 
     // Конструкторы
-    CellPosition(int currentX, int currentY){
-        this.x = currentX;
-        this.y = currentY;
+    CellPosition(int X, int Y){
+        this.x = X;
+        this.y = Y;
     }
 
     // Геттеры

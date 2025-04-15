@@ -1,2 +1,6 @@
+
+/**
+ * Доска.
+ */
 public class Desk {
 }

@@ -1,2 +1,5 @@
+/**
+ * Команда.
+ */
 public class Team {
 }

@@ -1,2 +1,6 @@
+
+/**
+ * Игра.
+ */
 public class Game {
 }

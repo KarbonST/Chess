@@ -1,2 +1,5 @@
+/**
+ * Судья.
+ */
 public class Judge {
 }
