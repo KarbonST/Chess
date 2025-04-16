@@ -3,24 +3,27 @@ import chess.Team;
 /**
  * Фигура.
  */
-public class Figure {
+public abstract class Figure {
 
     /**
      * Команда.
      */
-    private Team team;
+    protected Team team;
 
     /**
      * Получить команду.
      */
     public Team getTeam() {
-        return team;
+        return this.team;
+    }
+
+    Figure(Team team){
+        this.team = team;
     }
 
     /**
-     * Задать команду.
+     * Вернуть тип фигуры
+     * @return тип фигуры
      */
-    public void setTeam(Team team) {
-        this.team = team;
-    }
+    public abstract FiguresTypes getFigureType();
 }
