@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Objects;
+
 /**
  * Позиция ячейки.
  */
@@ -43,5 +45,10 @@ public class CellPosition {
         CellPosition cellPosition = (CellPosition) o;
         return row == cellPosition.row &&
                 col == cellPosition.col;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row,col);
     }
 }

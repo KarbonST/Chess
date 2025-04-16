@@ -7,46 +7,73 @@ public enum Direction {
     /**
      * Север.
      */
-    NORTH,
+    NORTH(-1,0),
 
     /**
      * Северо-восток.
      */
-    NORTHEAST,
+    NORTHEAST(-1,1),
 
     /**
      * Восток.
      */
-    EAST,
+    EAST(0,1),
 
     /**
      * Юго-восток.
      */
-    SOUTHEAST,
+    SOUTHEAST(1,1),
 
     /**
      * ЮГ.
      */
-    SOUTH,
+    SOUTH(1,0),
 
     /**
      * Юго-запад.
      */
-    SOUTHWEST,
+    SOUTHWEST(1,-1),
 
     /**
      * Запад.
      */
-    WEST,
+    WEST(0, -1),
 
     /**
      * Северо-запад.
      */
-    NORTHWEST;
+    NORTHWEST(-1,-1);
 
     /**
-     * Смещение по Х
+     * Смещение по строкам
      */
+    private final int deltaRow;
+
+    /**
+     * Смещение по столбцам
+     */
+    private final int deltaCol;
+
+    Direction(int deltaRow, int deltaCol){
+        this.deltaRow = deltaRow;
+        this.deltaCol = deltaCol;
+    }
+
+    /**
+     * Получение смещения по строкам
+     * @return смещение по строкам
+     */
+    public int getDeltaRow() {
+        return deltaRow;
+    }
+
+    /**
+     * Получение смещения по столбцам
+     * @return смещение по столбцам
+     */
+    public int getDeltaCol() {
+        return deltaCol;
+    }
 
     /**
      * Противоположное направление.

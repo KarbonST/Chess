@@ -1,6 +1,8 @@
 package chess;
 
 import chess.Figures.Figure;
+
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,7 +17,7 @@ public class Cell {
     /**
      * Соседние ячейки.
      */
-    private Map<Direction, Cell> neighbours;
+    private final Map<Direction, Cell> neighbours;
 
     /**
      * Фигура, находящаяся в ячейке.
@@ -24,6 +26,7 @@ public class Cell {
 
     Cell(CellPosition cellPosition){
         this.position = cellPosition;
+        this.neighbours = new HashMap<>();
     }
 
     /**
