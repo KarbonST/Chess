@@ -94,6 +94,33 @@ public abstract class Figure {
 
     /**
      * Получить радиус траектории движения
+     * @return радиус траектории движения
      */
-    
+    public int getMovementRadius(){
+        return this.movementRadius;
+    }
+
+    /**
+     * Получить радиус траектории атаки
+     * @return радиус траектории атаки
+     */
+    public int getAttackRadius(){
+        return this.attackRadius;
+    }
+
+    /**
+     * Задать радиус траектории движения
+     * @param movementRadius радиус движения
+     */
+    public void setMovementRadius(int movementRadius){
+        this.movementRadius = movementRadius;
+    }
+
+    /**
+     * Задать радиус траектории атаки
+     * @param attackRadius радиус атаки
+     */
+    public void setAttackRadius(int attackRadius){
+        this.attackRadius = attackRadius;
+    }
 }
