@@ -95,4 +95,12 @@ public class Board {
     public Cell getCellByPosition(CellPosition cellPosition){
         return this.cells.get(cellPosition);
     }
+
+    /**
+     * Получить размер доски
+     * @return размер доски
+     */
+    public static int getBoardSize(){
+        return BOARD_SIZE;
+    }
 }

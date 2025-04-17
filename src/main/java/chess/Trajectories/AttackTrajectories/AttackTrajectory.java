@@ -4,5 +4,5 @@ import chess.Trajectories.Trajectory;
 /**
  * Траектория атаки.
  */
-public class AttackTrajectory extends Trajectory{
+public abstract class AttackTrajectory extends Trajectory{
 }

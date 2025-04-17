@@ -61,4 +61,19 @@ public class Cell {
     public void setNeighbour(Cell neighbour, Direction direction){
         this.neighbours.putIfAbsent(direction, neighbour);
     }
+
+    /**
+     * Задать ячейке фигуру
+     * @param figure фигура
+     */
+    public void setFigure(Figure figure){
+        this.figure = figure;
+    }
+
+    /**
+     * Удалить фигуру
+     */
+    public void deleteFigure(){
+        this.figure = null;
+    }
 }

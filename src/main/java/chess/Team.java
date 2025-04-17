@@ -1,6 +1,8 @@
 package chess;
 
 import chess.Figures.Figure;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
 
@@ -10,16 +12,31 @@ import java.awt.*;
 public class Team {
 
     /**
-     * Цвет команды.
-     */
-    private Color teamColor;
-
-    /**
      * Список фигур.
      */
-    private List<Figure> figureList;
+    private final List<Figure> figureList;
+
+    /**
+     * Цвет команды
+     */
+    private final Color color;
 
     Team(Color color){
-        this.teamColor = color;
+        this.figureList = new ArrayList<>();
+        this.color = color;
     }
+    /**
+     * Добавить фигуру в команду
+     */
+    public void addFigure(Figure figure){
+        figureList.add(figure);
+    }
+
+    /**
+     * Получить список фигур
+     */
+    public List<Figure> getFigureList(){
+        return this.figureList;
+    }
+
 }

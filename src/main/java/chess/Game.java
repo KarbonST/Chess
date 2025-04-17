@@ -8,22 +8,27 @@ public class Game {
     /**
      * Доска
      */
-    private Board board;
+    private final Board board;
 
     /**
      * Расстановка
      */
-    private Placement placement;
+    private final Placement placement;
 
     /**
-     * Начало игры
+     * Команда белых
      */
-    public void startGame(){
+    private final Team whiteTeam;
 
-        // Инициализация
+    /**
+     * Команда черных
+     */
+    private final Team blackTeam;
+
+    Game(){
         this.board = new Board();
-        this.placement = new Placement(board);
-
+        this.placement = new Placement(this.board);
+        this.whiteTeam = this.placement.getWhiteTeam();
+        this.blackTeam = this.placement.getBlackTeam();
     }
-
 }
