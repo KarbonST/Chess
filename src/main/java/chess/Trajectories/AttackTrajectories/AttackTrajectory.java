@@ -7,10 +7,11 @@ import chess.Trajectories.Trajectory;
 /**
  * Траектория атаки.
  */
-public abstract class AttackTrajectory extends Trajectory{
-
+public class AttackTrajectory extends Trajectory{
 
     AttackTrajectory(Board board){
         super(board);
     }
+
+
 }
