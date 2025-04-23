@@ -46,6 +46,14 @@ public class Cell {
     }
 
     /**
+     * Получить соседа по направлению
+     * @param direction направление
+     */
+    public Cell getNeighbour(Direction direction){
+        return neighbours.get(direction);
+    }
+
+    /**
      * Получить фигуру, находящуюся в ячейке.
      * @return фигура, находящаяся в ячейке.
      */

@@ -1,10 +1,12 @@
 package chess.Trajectories;
 
 import chess.Board;
+import chess.Cell;
 import chess.CellPosition;
 import chess.Direction;
 import chess.Figures.Figure;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,9 +15,9 @@ import java.util.List;
 public abstract class Trajectory {
 
     /**
-     * Список позиций траектории
+     * Список ячеек в траектории
      */
-    protected List<CellPosition> positions;
+    protected List<Cell> cells;
 
     /**
      * Доска
@@ -38,43 +40,44 @@ public abstract class Trajectory {
     protected final int[] shiftPerStep;
 
     /**
-     * @param board доска
      * @param directions направления
      * @param stepsCount количество возможных шагов
      * @param shiftPerStep смещение за один шаг по строкам и колоннам
      */
-    public Trajectory(Board board, List<Direction> directions, int stepsCount, int[] shiftPerStep){
-        this.board = board;
+    public Trajectory(List<Direction> directions, int stepsCount, int[] shiftPerStep){
+        this.cells = new ArrayList<>();
         this.directions = directions;
         this.stepsCount = stepsCount;
         this.shiftPerStep = shiftPerStep;
     }
 
     /**
-     * Получить список позиций траектории
+     * Получить список ячеек траектории
      */
-    public List<CellPosition> getPositions(){
-        return this.positions;
+    public List<Cell> getCells(){
+        return this.cells;
     }
 
     /**
      * Построить траекторию
-     * @param startPosition стартовая позиция
+     * @param startCell стартовая клетка
      */
-    public void buildTrajectory(CellPosition startPosition){
+    public void buildTrajectory(Cell startCell){
+        //Очистка прошлой траектории
+        this.cells.clear();
 
         // Для всех направлений
         for (Direction direction: this.directions){
 
             if (stepsCount > 0) {
                 // Получить позицию в заданном направлении
-                int rowAfterStep = direction.getDeltaRow() * shiftPerStep[0] + startPosition.getRow();
-                int colAfterStep = direction.getDeltaCol() * shiftPerStep[1] + startPosition.getCol();
+                int rowAfterStep = direction.getDeltaRow() * shiftPerStep[0] + startCell.getPosition().getRow();
+                int colAfterStep = direction.getDeltaCol() * shiftPerStep[1] + startCell.getPosition().getCol();
 
                 // Заданная позиция не выходит за пределы доски
-                if (Board.isBeyond(rowAfterStep, colAfterStep)) {
+                if (Board.isInsideTheBoard(rowAfterStep, colAfterStep)) {
                     // Построить траекторию в заданном направлении
-                    buildDirectionTrajectory(new CellPosition(rowAfterStep, colAfterStep), direction, this.stepsCount);
+                    buildDirectionTrajectory(startCell.getNeighbour(direction), direction, this.stepsCount);
                 }
             }
         }
@@ -82,48 +85,49 @@ public abstract class Trajectory {
 
     /**
      * Построить траекторию в заданном направлении
-     * @param pos текущая позиция
+     * @param cell текущая клетка
      * @param direction направление
      * @param steps количество доступных шагов
      */
-    private void buildDirectionTrajectory(CellPosition pos, Direction direction, int steps){
+    private void buildDirectionTrajectory(Cell cell, Direction direction, int steps){
 
         // Получить фигуру в ячейке
-        Figure figure = board.getCellByPosition(pos).getFigure();
+        Figure figure = cell.getFigure();
 
         // Уменьшаем количество доступных шагов
         int remindSteps = steps - 1;
 
-        // Добавляем позицию ячейки в траекторию
-        addCell(pos);
+        // Добавляем ячейку в траекторию
+        addCell(cell);
 
         // Если нет фигуры, либо можно перепрыгнуть её
         if (figure == null || this.shiftPerStep[0] > 1 || this.shiftPerStep[1] > 1) {
             // Получить позицию в заданном направлении
-            int rowAfterStep = direction.getDeltaRow() * this.shiftPerStep[0] + pos.getRow();
-            int colAfterStep = direction.getDeltaCol() * this.shiftPerStep[1] + pos.getCol();
+            int rowAfterStep = direction.getDeltaRow() * this.shiftPerStep[0] + cell.getPosition().getRow();
+            int colAfterStep = direction.getDeltaCol() * this.shiftPerStep[1] + cell.getPosition().getCol();
 
             // Заданная позиция не выходит за пределы доски и остались ещё шаги
-            if (Board.isBeyond(rowAfterStep, colAfterStep) && remindSteps > 0){
+            if (Board.isInsideTheBoard(rowAfterStep, colAfterStep) && remindSteps > 0){
                 // Строим траекторию в заданном направлении
-                buildDirectionTrajectory(new CellPosition(rowAfterStep, colAfterStep), direction, remindSteps);
+                buildDirectionTrajectory(cell.getNeighbour(direction), direction, remindSteps);
             }
         }
     }
 
     /**
      * Добавить ячейку в траекторию
-     * @param cellPosition позиция ячейки
+     * @param cell позиция ячейки
      */
-    private void addCell(CellPosition cellPosition){
-        this.positions.add(cellPosition);
+    private void addCell(Cell cell){
+        this.cells.add(cell);
     }
 
     /**
-     * Удалить ячейку из траектории
-     * @param cellPosition позиция ячейки
+     * Удалить позиции ячеек из траектории
+     * @param cellsToRemove список ячеек для удаления
      */
-    public void deleteCell(CellPosition cellPosition){
-        this.positions.removeIf(pos -> pos == cellPosition);
+    public void deleteCells(List<Cell> cellsToRemove){
+        this.cells.removeAll(cellsToRemove);
     }
+
 }

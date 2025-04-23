@@ -1,9 +1,11 @@
 package chess.Trajectories.MovementTrajectories;
 import chess.Board;
+import chess.Cell;
 import chess.CellPosition;
 import chess.Direction;
 import chess.Trajectories.Trajectory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,20 +13,27 @@ import java.util.List;
  */
 public class MovementTrajectory extends Trajectory{
 
-    MovementTrajectory(Board board, List<Direction> directions, int stepsCount, int[] shiftPerStep){
-        super(board, directions, stepsCount, shiftPerStep);
+    /**
+     * @param directions направления
+     * @param stepsCount количество возможных шагов
+     * @param shiftPerStep смещение за один шаг по строкам и колоннам
+     */
+    public MovementTrajectory(List<Direction> directions, int stepsCount, int[] shiftPerStep){
+        super(directions, stepsCount, shiftPerStep);
     }
 
     @Override
-    public void buildTrajectory(CellPosition startPosition) {
-        super.buildTrajectory(startPosition);
+    public void buildTrajectory(Cell startCell) {
+        super.buildTrajectory(startCell);
 
-        // Убрать все позиции, в которых есть фигуры
-        for(CellPosition pos: this.positions){
-            // Удалить ячейку с фигурой из траектории
-            if (this.board.getCellByPosition(pos).getFigure() != null){
-                deleteCell(pos);
+        List<Cell> cellsToRemove = new ArrayList<>();
+
+        // Убрать все ячейки, в которых есть фигуры
+        for(Cell cell: this.cells){
+            if (cell.getFigure() != null){
+                cellsToRemove.add(cell);
             }
         }
+        deleteCells(cellsToRemove);
     }
 }

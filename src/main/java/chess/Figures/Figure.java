@@ -1,10 +1,9 @@
 package chess.Figures;
 import chess.Cell;
+import chess.CellPosition;
+import chess.Direction;
 import chess.Team;
-import chess.Trajectories.AttackTrajectories.AttackTrajectory;
-import chess.Trajectories.MovementTrajectories.MovementTrajectory;
-
-import java.util.ArrayList;
+import chess.Trajectories.Trajectory;
 import java.util.List;
 
 /**
@@ -23,14 +22,24 @@ public abstract class Figure {
     protected Cell cell;
 
     /**
-     * Список траекторий атаки фигуры
+     * Направления движения фигуры
      */
-    protected final List<AttackTrajectory> attackTrajectories;
+    protected List<Direction> movementDirections;
 
     /**
-     * Список траекторий движения фигуры
+     * Направления атаки фигуры
      */
-    protected final List<MovementTrajectory> movementTrajectories;
+    protected List<Direction> attackDirections;
+
+    /**
+     * Траектории атаки фигуры
+     */
+    protected List<Trajectory> attackTrajectories;
+
+    /**
+     * Траектория движения фигуры
+     */
+    protected List<Trajectory> movementTrajectories;
 
     /**
      * Радиус траектории движения
@@ -42,6 +51,12 @@ public abstract class Figure {
      */
     protected int attackRadius;
 
+
+    /**
+     * Смещение за один шаг
+     */
+    protected int[][] shiftPerStep;
+
     /**
      * Получить команду.
      */
@@ -51,8 +66,6 @@ public abstract class Figure {
 
     Figure(Team team){
         this.team = team;
-        this.attackTrajectories = new ArrayList<>();
-        this.movementTrajectories = new ArrayList<>();
     }
 
     /**
@@ -78,17 +91,17 @@ public abstract class Figure {
 
     /**
      * Получить траектории движения фигуры
-     * @return траектории движения фигуры
+     * @return траектория движения фигуры
      */
-    public List<MovementTrajectory> getMovementTrajectories(){
+    public List<Trajectory> getMovementTrajectories(){
         return this.movementTrajectories;
     }
 
     /**
      * Получить траектории атаки фигуры
-     * @return траектории атаки фигуры
+     * @return траектория атаки фигуры
      */
-    public List<AttackTrajectory> getAttackTrajectories(){
+    public List<Trajectory> getAttackTrajectories(){
         return this.attackTrajectories;
     }
 
@@ -123,4 +136,16 @@ public abstract class Figure {
     public void setAttackRadius(int attackRadius){
         this.attackRadius = attackRadius;
     }
+
+    /**
+     * Получить позицию фигуры
+     * @return позиция фигуры
+     */
+    public CellPosition getFigurePosition(){
+        if (this.cell != null){
+            return this.cell.getPosition();
+        }
+        return null;
+    }
+
 }

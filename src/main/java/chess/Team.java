@@ -1,6 +1,7 @@
 package chess;
 
 import chess.Figures.Figure;
+import chess.Figures.FiguresTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,11 @@ public class Team {
      * Список фигур.
      */
     private final List<Figure> figureList;
+
+    /**
+     * Активная фигура
+     */
+    private Figure activeFigure;
 
     /**
      * Цвет команды
@@ -37,6 +43,37 @@ public class Team {
      */
     public List<Figure> getFigureList(){
         return this.figureList;
+    }
+
+    /**
+     * Получить цвет команды
+     */
+    public Color getColor() {
+        return color;
+    }
+
+    /**
+     * Получить активную фигуру
+     * @return активная фигура
+     */
+    public Figure getActiveFigure() {
+        return activeFigure;
+    }
+
+    /**
+     * Получить позицию короля
+     * @return kingPosition позиция короля
+     */
+    public CellPosition getKingPosition(){
+
+        // Для всех фигур команды
+        for(Figure figure: figureList){
+
+            // Возвращаем позицию короля
+            if (figure.getFigureType() == FiguresTypes.KING){
+                return figure
+            }
+        }
     }
 
 }

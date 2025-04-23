@@ -51,7 +51,7 @@ public class Board {
                 int neighbourCol = cell.getPosition().getCol() + direction.getDeltaCol();
 
                 // Входит ли соседняя ячейка в пределы доски
-                if (isBeyond(neighbourRow, neighbourCol)){
+                if (isInsideTheBoard(neighbourRow, neighbourCol)){
 
                     // Получаем ячейку соседа
                     Cell neighbourCell = getCellByPosition(new CellPosition(neighbourRow, neighbourCol));
@@ -110,7 +110,7 @@ public class Board {
      * @param col колонка
      * @return выходит ли позиция за пределы доски
      */
-    public static boolean isBeyond(int row, int col){
+    public static boolean isInsideTheBoard(int row, int col){
         return (row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE);
     }
 }
