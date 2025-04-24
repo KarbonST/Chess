@@ -18,11 +18,6 @@ public class Placement {
     private final Board board;
 
     /**
-     * Фабрика фигур
-     */
-    private final FiguresFactory figuresFactory;
-
-    /**
      * Команда белых.
      */
     private final Team whiteTeam;
@@ -38,7 +33,6 @@ public class Placement {
         this.board = board;
         this.whiteTeam = new Team(Color.WHITE);
         this.blackTeam = new Team(Color.BLACK);
-        this.figuresFactory = new FiguresFactory(board);
         this.initSetup = buildInitSetup();
         populateBoard();
     }
@@ -94,7 +88,7 @@ public class Placement {
             Cell cell = board.getCellByPosition(pos);
 
             // Создаем фигуру нужного типа и цвета
-            Figure figure = figuresFactory.createFigure(spec.getFiguresTypes(), spec.getTeam());
+            Figure figure = FiguresFactory.createFigure(spec.getFiguresTypes(), spec.getTeam());
 
             // Связываем фигуру и ячейку
             cell.setFigure(figure);

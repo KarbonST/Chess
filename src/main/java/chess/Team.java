@@ -61,19 +61,29 @@ public class Team {
     }
 
     /**
-     * Получить позицию короля
-     * @return kingPosition позиция короля
+     * Получить ячейку короля
+     * @return kingPosition ячейка короля
      */
-    public CellPosition getKingPosition(){
+    public Cell getKingCell(){
 
         // Для всех фигур команды
         for(Figure figure: figureList){
 
-            // Возвращаем позицию короля
+            // Возвращаем ячейку короля
             if (figure.getFigureType() == FiguresTypes.KING){
-                return figure
+                return figure.getCell();
             }
         }
+        return null;
+    }
+
+    /**
+     * Переместить активную фигуру в заданную ячейку
+     * @param targetCell целевая ячейка
+     */
+
+    public void moveActiveFigure(Cell targetCell){
+
     }
 
 }

@@ -20,11 +20,6 @@ public abstract class Trajectory {
     protected List<Cell> cells;
 
     /**
-     * Доска
-     */
-    protected Board board;
-
-    /**
      * Список направлений
      */
     protected final List<Direction> directions;
@@ -59,6 +54,24 @@ public abstract class Trajectory {
     }
 
     /**
+     * Можно ли попасть в заданную ячейку
+     * @param targetCell целевая ячейка
+     * @return можно ли переместиться
+     */
+    public boolean canGoToCell(Cell targetCell){
+
+        // Для всех ячеек траектории
+        for (Cell cell: this.cells){
+
+            // Ячейка есть в списке
+            if (cell.getPosition() == targetCell.getPosition()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Построить траекторию
      * @param startCell стартовая клетка
      */
@@ -73,11 +86,13 @@ public abstract class Trajectory {
                 // Получить позицию в заданном направлении
                 int rowAfterStep = direction.getDeltaRow() * shiftPerStep[0] + startCell.getPosition().getRow();
                 int colAfterStep = direction.getDeltaCol() * shiftPerStep[1] + startCell.getPosition().getCol();
+                CellPosition positionAfterStep = new CellPosition(rowAfterStep, colAfterStep);
 
                 // Заданная позиция не выходит за пределы доски
                 if (Board.isInsideTheBoard(rowAfterStep, colAfterStep)) {
-                    // Построить траекторию в заданном направлении
-                    buildDirectionTrajectory(startCell.getNeighbour(direction), direction, this.stepsCount);
+                    //Получить соседа в заданном направлении
+                    Cell neighbourCell = findCellAt(startCell, direction, positionAfterStep);
+                    buildDirectionTrajectory(neighbourCell, direction, this.stepsCount);
                 }
             }
         }
@@ -105,13 +120,36 @@ public abstract class Trajectory {
             // Получить позицию в заданном направлении
             int rowAfterStep = direction.getDeltaRow() * this.shiftPerStep[0] + cell.getPosition().getRow();
             int colAfterStep = direction.getDeltaCol() * this.shiftPerStep[1] + cell.getPosition().getCol();
+            CellPosition positionAfterStep = new CellPosition(rowAfterStep, colAfterStep);
 
             // Заданная позиция не выходит за пределы доски и остались ещё шаги
             if (Board.isInsideTheBoard(rowAfterStep, colAfterStep) && remindSteps > 0){
                 // Строим траекторию в заданном направлении
-                buildDirectionTrajectory(cell.getNeighbour(direction), direction, remindSteps);
+                Cell neighbourCell = findCellAt(cell, direction,positionAfterStep);
+                buildDirectionTrajectory(neighbourCell, direction, remindSteps);
             }
         }
+    }
+
+    /**
+     * Найти ячейку в заданном направлении
+     * @param currentCell текущая ячейка
+     * @param direction направление поиска
+     * @param findPosition искомая позиция
+     * @return ячейка с заданной позицией
+     */
+    private Cell findCellAt(Cell currentCell, Direction direction, CellPosition findPosition){
+        if (currentCell == null){
+            throw new IllegalArgumentException("Не удалось найти клетку с заданной позицией");
+        }
+
+        // Нашли искомую ячейку
+        if (currentCell.getPosition().equals(findPosition)){
+            return currentCell;
+        }
+
+        // Не нашли искомую ячейку - двигаемся дальше по направлению
+        return findCellAt(currentCell.getNeighbour(direction), direction, findPosition);
     }
 
     /**

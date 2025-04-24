@@ -1,24 +1,7 @@
 package chess.Figures;
-import chess.Board;
-import chess.Direction;
 import chess.Team;
-import chess.Trajectories.DefaultTrajectoryFactory;
-import chess.Trajectories.Trajectory;
-import chess.Trajectories.TrajectoryFactory;
-
-import java.awt.*;
-import java.util.List;
 
 public class FiguresFactory {
-
-    /**
-     * Фабрика траекторий
-     */
-    private final TrajectoryFactory trajectoryFactory;
-
-    public FiguresFactory(Board board) {
-        this.trajectoryFactory = new DefaultTrajectoryFactory(board);
-    }
 
     /**
      * Создать фигуру по типу и цвету.
@@ -28,7 +11,7 @@ public class FiguresFactory {
      * @return объект фигуры нужного типа
      * @throws IllegalArgumentException если тип фигуры неизвестен
      */
-    public Figure createFigure(FiguresTypes figureType, Team team) {
+    public static Figure createFigure(FiguresTypes figureType, Team team) {
         if (figureType == null) {
             throw new IllegalArgumentException("Тип фигуры не может быть null");
         }

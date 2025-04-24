@@ -24,7 +24,7 @@ public class Cell {
      */
     private Figure figure;
 
-    Cell(CellPosition cellPosition){
+    public Cell(CellPosition cellPosition){
         this.position = cellPosition;
         this.neighbours = new HashMap<>();
     }

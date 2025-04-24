@@ -148,4 +148,12 @@ public abstract class Figure {
         return null;
     }
 
+    /**
+     * Получить ячейку фигуры
+     * @return ячейка фигуры
+     */
+    public Cell getCell(){
+        return this.cell;
+    }
+
 }
