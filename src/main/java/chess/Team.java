@@ -2,6 +2,7 @@ package chess;
 
 import chess.Figures.Figure;
 import chess.Figures.FiguresTypes;
+import chess.Trajectories.Trajectory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +85,32 @@ public class Team {
 
     public void moveActiveFigure(Cell targetCell){
 
+    }
+
+    /**
+     * Построить траектории движения фигур
+     */
+    public void buildMovementTrajectories(){
+        // Для всех фигур команды
+        for(Figure figure: this.getFigureList()){
+            // Для всех траекторий движения
+            for(Trajectory trajectory: figure.getMovementTrajectories()){
+                trajectory.buildTrajectory(figure.getCell());
+            }
+        }
+    }
+
+    /**
+     * Построить траектории атаки фигур
+     */
+    public void buildAttackTrajectories(){
+        // Для всех фигур команды
+        for(Figure figure: this.getFigureList()){
+            // Для всех траекторий движения
+            for(Trajectory trajectory: figure.getAttackTrajectories()){
+                trajectory.buildTrajectory(figure.getCell());
+            }
+        }
     }
 
 }

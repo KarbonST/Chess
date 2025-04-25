@@ -3,6 +3,8 @@ package chess;
 import chess.Figures.FiguresFactory;
 import chess.Figures.Figure;
 import chess.Figures.FiguresTypes;
+import chess.Trajectories.MovementTrajectories.MovementTrajectory;
+import chess.Trajectories.Trajectory;
 
 import java.awt.*;
 import java.util.Map;
@@ -97,6 +99,12 @@ public class Placement {
             // Регистрируем фигуру в команде
             spec.getTeam().addFigure(figure);
         }
+
+        // Построить траектории для всех фигур обеих команд
+        this.whiteTeam.buildMovementTrajectories();
+        this.whiteTeam.buildAttackTrajectories();
+        this.blackTeam.buildMovementTrajectories();
+        this.blackTeam.buildAttackTrajectories();
     }
 
     /**
@@ -114,4 +122,5 @@ public class Placement {
     public Team getBlackTeam() {
         return blackTeam;
     }
+
 }

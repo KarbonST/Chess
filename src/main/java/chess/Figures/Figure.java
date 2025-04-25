@@ -17,6 +17,16 @@ public abstract class Figure {
     protected Team team;
 
     /**
+     * Может ли фигура "перепрыгивать" другие фигуры
+     */
+    protected boolean canJumpOver = false;
+
+    /**
+     * Ходила ли фигура в течение игры
+     */
+    protected boolean hasMoved = false;
+
+    /**
      * Ячейка
      */
     protected Cell cell;
@@ -154,6 +164,29 @@ public abstract class Figure {
      */
     public Cell getCell(){
         return this.cell;
+    }
+
+    /**
+     * Может ли фигура перепрыгивать другие фигуры
+     */
+    public boolean canJumpOver(){
+        return this.canJumpOver;
+    }
+
+    /**
+     * Ходила ли фигура в течение игры
+     */
+    public boolean hasMoved(){
+        return this.hasMoved;
+    }
+
+    /**
+     * Переместиться в заданную ячейку
+     * @param targetCell целевая ячейка
+     * @return прошло ли успешно перемещение
+     */
+    public boolean moveTo(Cell targetCell){
+        
     }
 
 }

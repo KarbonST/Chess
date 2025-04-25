@@ -20,6 +20,7 @@ public class MovementTrajectory extends Trajectory{
      */
     public MovementTrajectory(List<Direction> directions, int stepsCount, int[] shiftPerStep){
         super(directions, stepsCount, shiftPerStep);
+
     }
 
     @Override
