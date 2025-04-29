@@ -76,12 +76,19 @@ public class Cell {
      */
     public void setFigure(Figure figure){
         this.figure = figure;
+        if (this.figure.getCell() == null){
+            this.figure.setCell(this);
+        }
     }
 
     /**
      * Удалить фигуру
      */
-    public void deleteFigure(){
+    public void unsetFigure(){
+        Figure currentFigure = this.figure;
         this.figure = null;
+        if (currentFigure.getCell() == this){
+            currentFigure.unsetCell();
+        }
     }
 }

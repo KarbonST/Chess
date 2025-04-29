@@ -94,7 +94,6 @@ public class Placement {
 
             // Связываем фигуру и ячейку
             cell.setFigure(figure);
-            figure.setCell(cell);
 
             // Регистрируем фигуру в команде
             spec.getTeam().addFigure(figure);

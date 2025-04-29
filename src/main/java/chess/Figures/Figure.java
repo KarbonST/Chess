@@ -90,13 +90,42 @@ public abstract class Figure {
      */
     public void setCell(Cell cell){
         this.cell = cell;
+        if (this.cell.getFigure() == null){
+            this.cell.setFigure(this);
+        }
     }
 
     /**
      * Удалить ячейку фигуры
      */
-    public void deleteCell(){
+    public void unsetCell(){
+        Cell currentCell = this.cell;
         this.cell = null;
+        if (currentCell.getFigure() == this){
+            currentCell.unsetFigure();
+        }
+    }
+
+    /**
+     * Задать команду фигуре
+     * @param team команда
+     */
+    public void setTeam(Team team){
+        this.team = team;
+        if (!this.team.getFigureList().contains(this)){
+            this.team.addFigure(this);
+        }
+    }
+
+    /**
+     * Отвязать команду от фигуры
+     */
+    public void unsetTeam(){
+        Team currentTeam = this.team;
+        this.team = null;
+        if (currentTeam.getFigureList().contains(this)){
+            currentTeam.deleteFigure(this);
+        }
     }
 
     /**
@@ -186,7 +215,35 @@ public abstract class Figure {
      * @return прошло ли успешно перемещение
      */
     public boolean moveTo(Cell targetCell){
-        
+
+        // Для всех траекторий движения
+        for (Trajectory trajectory: this.movementTrajectories){
+            // Целевая ячейка есть в траектории
+            if (trajectory.getCells().contains(targetCell)){
+                // Перемещаемся
+                unsetCell();
+                setCell(targetCell);
+                return true;
+            }
+        }
+
+        // Для всех траекторий атаки
+        for (Trajectory trajectory: this.attackTrajectories){
+            // Целевая ячейка есть в траектории
+            if (trajectory.getCells().contains(targetCell)){
+                // В целевой ячейке есть вражеская фигура
+                Figure enemyFigure = targetCell.getFigure();
+                if (enemyFigure != null){
+                    enemyFigure.unsetTeam();
+                    targetCell.unsetFigure();
+                }
+                // Перемещаемся
+                unsetCell();
+                setCell(targetCell);
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -34,9 +34,24 @@ public class Team {
     }
     /**
      * Добавить фигуру в команду
+     * @param figure фигура
      */
     public void addFigure(Figure figure){
         figureList.add(figure);
+        if (figure.getTeam() != this){
+            figure.setTeam(this);
+        }
+    }
+
+    /**
+     * Удалить фигуру из списка фигур
+     * @param figure фигура, которую нужно удалить
+     */
+    public void deleteFigure(Figure figure){
+        this.figureList.remove(figure);
+        if (figure.getTeam() == this){
+            figure.unsetTeam();
+        }
     }
 
     /**
@@ -62,6 +77,27 @@ public class Team {
     }
 
     /**
+     * Получить фигуру по ячейке
+     * @param targetCell искомая ячейка
+     */
+    private Figure getFigureByCell(Cell targetCell){
+        for(Figure figure: this.figureList){
+            if (targetCell.getPosition().equals(figure.getCell().getPosition())){
+                return figure;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Задать активную фигуру
+     * @param activeCell ячейка фигуры
+     */
+    public void setActiveFigure(Cell activeCell){
+        this.activeFigure = getFigureByCell(activeCell);
+    }
+
+    /**
      * Получить ячейку короля
      * @return kingPosition ячейка короля
      */
@@ -82,9 +118,8 @@ public class Team {
      * Переместить активную фигуру в заданную ячейку
      * @param targetCell целевая ячейка
      */
-
     public void moveActiveFigure(Cell targetCell){
-
+        this.activeFigure.moveTo(targetCell);
     }
 
     /**
