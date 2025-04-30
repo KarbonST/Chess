@@ -33,4 +33,9 @@ public class Knight extends Figure{
     public FiguresTypes getFigureType() {
         return FiguresTypes.KNIGHT;
     }
+
+    @Override
+    public Figure cloneFigure(){
+        return new Knight(this.team);
+    }
 }

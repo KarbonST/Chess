@@ -30,4 +30,9 @@ public class King extends Figure{
     public FiguresTypes getFigureType() {
         return FiguresTypes.KING;
     }
+
+    @Override
+    public Figure cloneFigure(){
+        return new King(this.team);
+    }
 }

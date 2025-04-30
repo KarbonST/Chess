@@ -98,6 +98,49 @@ public class Team {
     }
 
     /**
+     * Может ли команда атаковать вражеского короля
+     * @param enemyKingCell ячейка вражеского короля
+     * return может ли атаковать вражеского короля
+     */
+    public boolean canAttackEnemyKing(Cell enemyKingCell){
+        // Для всех фигур команды
+        for (Figure figure: figureList){
+            // Для всех траекторий атаки фигуры
+            for (Trajectory trajectory: figure.getAttackTrajectories()){
+                // Можно ли попасть в ячейку короля
+                if (trajectory.canGoToCell(enemyKingCell)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Есть ли фигура с доступными ходами
+     * @return есть ли фигура с доступными ходами
+     */
+    public boolean hasFigureWithAvailableMoves(){
+        // Для всех фигур
+        for (Figure figure: getFigureList()){
+            // Для всех траекторий фигуры
+            for (Trajectory trajectory: figure.getMovementTrajectories()){
+                // Есть ли доступные ходы
+                if (!trajectory.getCells().isEmpty()){
+                    return true;
+                }
+            }
+            for (Trajectory trajectory: figure.getAttackTrajectories()){
+                // Есть ли доступные ходы
+                if (!trajectory.getCells().isEmpty()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Получить ячейку короля
      * @return kingPosition ячейка короля
      */
@@ -146,6 +189,10 @@ public class Team {
                 trajectory.buildTrajectory(figure.getCell());
             }
         }
+    }
+
+    public Team cloneTeam(){
+        return new Team(this.color);
     }
 
 }

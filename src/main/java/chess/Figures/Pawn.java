@@ -38,4 +38,9 @@ public class Pawn extends Figure{
     public FiguresTypes getFigureType() {
         return FiguresTypes.PAWN;
     }
+
+    @Override
+    public Figure cloneFigure(){
+        return new Pawn(this.team);
+    }
 }

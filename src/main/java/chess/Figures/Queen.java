@@ -30,4 +30,9 @@ public class Queen extends Figure{
     public FiguresTypes getFigureType() {
         return FiguresTypes.QUEEN;
     }
+
+    @Override
+    public Figure cloneFigure(){
+        return new Queen(this.team);
+    }
 }

@@ -29,4 +29,9 @@ public class Bishop extends Figure{
     public FiguresTypes getFigureType() {
         return FiguresTypes.BISHOP;
     }
+
+    @Override
+    public Figure cloneFigure(){
+        return new Bishop(this.team);
+    }
 }

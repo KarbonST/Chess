@@ -1,5 +1,8 @@
 package chess;
 
+import chess.Figures.Figure;
+
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,10 +21,6 @@ public class Board {
      */
     private final Map<CellPosition, Cell> cells;
 
-    /**
-     * Клон доски.
-     */
-    private Board clonedBoard;
 
     Board(){
         this.cells = new HashMap<>();
@@ -66,13 +65,6 @@ public class Board {
     }
 
     /**
-     * Получить клон доски.
-     * @return клон доски.
-     */
-    public Board getClone() {
-        return this.clonedBoard; }
-
-    /**
      * Получить список ячеек.
      * @return список ячеек
      */
@@ -83,8 +75,19 @@ public class Board {
     /**
      * Клонировать доску.
      */
-    public void cloneDesk(){
-        this.clonedBoard = this;
+    public Board cloneBoard(){
+        // Создаём новый экземпляр доски
+        Board clonedBoard = new Board();
+
+        // Для всех ячеек старой доски
+        this.cells.forEach((key, val) -> {
+            if (val.getFigure() != null){
+                Figure clonedFigure = val.getFigure().cloneFigure();
+                clonedBoard.getCellByPosition(key).setFigure(clonedFigure);
+            }
+        });
+
+        return clonedBoard;
     }
 
     /**

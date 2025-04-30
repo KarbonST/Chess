@@ -212,9 +212,8 @@ public abstract class Figure {
     /**
      * Переместиться в заданную ячейку
      * @param targetCell целевая ячейка
-     * @return прошло ли успешно перемещение
      */
-    public boolean moveTo(Cell targetCell){
+    public void moveTo(Cell targetCell){
 
         // Для всех траекторий движения
         for (Trajectory trajectory: this.movementTrajectories){
@@ -223,7 +222,6 @@ public abstract class Figure {
                 // Перемещаемся
                 unsetCell();
                 setCell(targetCell);
-                return true;
             }
         }
 
@@ -240,10 +238,9 @@ public abstract class Figure {
                 // Перемещаемся
                 unsetCell();
                 setCell(targetCell);
-                return true;
             }
         }
-        return false;
     }
 
+    public abstract Figure cloneFigure();
 }

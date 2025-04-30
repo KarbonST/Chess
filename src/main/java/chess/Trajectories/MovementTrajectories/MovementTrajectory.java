@@ -37,4 +37,5 @@ public class MovementTrajectory extends Trajectory{
         }
         deleteCells(cellsToRemove);
     }
+
 }

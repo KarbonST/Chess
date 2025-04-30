@@ -31,4 +31,9 @@ public class Rook extends Figure{
     public FiguresTypes getFigureType() {
         return FiguresTypes.ROOK;
     }
+
+    @Override
+    public Figure cloneFigure(){
+        return new Rook(this.team);
+    }
 }
