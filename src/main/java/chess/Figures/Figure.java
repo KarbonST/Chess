@@ -4,6 +4,8 @@ import chess.CellPosition;
 import chess.Direction;
 import chess.Team;
 import chess.Trajectories.Trajectory;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -204,42 +206,41 @@ public abstract class Figure {
 
     /**
      * Ходила ли фигура в течение игры
+     * @return ходила ли фигура в течение игры
      */
     public boolean hasMoved(){
         return this.hasMoved;
     }
 
     /**
+     * Задать состояние ходила ли фигура в течение игры
+     * @param hasMoved двигалась ли фигура в течение игры
+     */
+    public void setHasMoved(boolean hasMoved){
+        this.hasMoved = hasMoved;
+    }
+
+    /**
      * Переместиться в заданную ячейку
      * @param targetCell целевая ячейка
+     * @return последний ход
      */
-    public void moveTo(Cell targetCell){
+    public UndoableMove moveTo(Cell targetCell){
+        // Объединить траектории в один лист
+        List<Trajectory> trajectories = new ArrayList<>(getMovementTrajectories());
+        trajectories.addAll(getAttackTrajectories());
+
+        UndoableMove undoableMove = new UndoableMove(this, targetCell);
 
         // Для всех траекторий движения
-        for (Trajectory trajectory: this.movementTrajectories){
+        for (Trajectory trajectory: trajectories){
             // Целевая ячейка есть в траектории
             if (trajectory.getCells().contains(targetCell)){
-                // Перемещаемся
-                unsetCell();
-                setCell(targetCell);
+                undoableMove.move();
             }
         }
 
-        // Для всех траекторий атаки
-        for (Trajectory trajectory: this.attackTrajectories){
-            // Целевая ячейка есть в траектории
-            if (trajectory.getCells().contains(targetCell)){
-                // В целевой ячейке есть вражеская фигура
-                Figure enemyFigure = targetCell.getFigure();
-                if (enemyFigure != null){
-                    enemyFigure.unsetTeam();
-                    targetCell.unsetFigure();
-                }
-                // Перемещаемся
-                unsetCell();
-                setCell(targetCell);
-            }
-        }
+        return undoableMove;
     }
 
     public abstract Figure cloneFigure();

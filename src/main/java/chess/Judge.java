@@ -1,6 +1,7 @@
 package chess;
 
 import chess.Figures.Figure;
+import chess.Figures.UndoableMove;
 import chess.Trajectories.Trajectory;
 
 import java.awt.*;
@@ -38,7 +39,7 @@ public class Judge {
 
         // Для всех фигур активной команды
         for (Figure figure: activeTeam.getFigureList()){
-            editTrajectories(activeTeam, figure, inactiveTeam);
+            editTrajectories(figure);
         }
 
         // Может ли неактивная команда атаковать короля активной
@@ -63,11 +64,11 @@ public class Judge {
 
     /**
      * Редактировать траекторию
-     * @param activeTeam активная команда
      * @param figureActiveTeam фигура активной команды
+     * @param activeTeam активная команда
      * @param inactiveTeam неактивная команда
      */
-    private void editTrajectories(Team activeTeam, Figure figureActiveTeam, Team inactiveTeam){
+    private void editTrajectories(Figure figureActiveTeam, Team activeTeam, Team inactiveTeam){
         // Объединить траектории в один лист
         List<Trajectory> trajectories = new ArrayList<>(figureActiveTeam.getMovementTrajectories());
         trajectories.addAll(figureActiveTeam.getAttackTrajectories());
@@ -75,8 +76,17 @@ public class Judge {
         // Клон текущего состояния игры
         GameSnapshot gameSnapshot = GameSnapshotFactory.makeSnapshot(this.board);
         Board clonedBoard = gameSnapshot.board(); // Клонированная доска
-        Team clonedWhiteTeam = gameSnapshot.whiteTeam(); // Клонированная команда белых
-        Team clonedBlackTeam = gameSnapshot.blackTeam();  // Клонированная команда черных
+        Team clonedActiveTeam;
+        Team clonedInactiveTeam;
+        // Клонируем активную и неактивную команду
+        if (activeTeam.getColor() == Color.WHITE){
+            clonedActiveTeam = gameSnapshot.whiteTeam();
+            clonedInactiveTeam = gameSnapshot.blackTeam();
+        }
+        else{
+            clonedActiveTeam = gameSnapshot.blackTeam();
+            clonedInactiveTeam = gameSnapshot.whiteTeam();
+        }
 
         // Получаем клонированную фигуру
         Figure clonedFigure = clonedBoard.getCellByPosition(figureActiveTeam.getCell().getPosition()).getFigure();
@@ -87,18 +97,12 @@ public class Judge {
             List<Cell> cellsToRemove = new ArrayList<>();
             for (Cell currentCell: trajectory.getCells()){
                 // Перемещаем клонированную фигуру на ячейку клонированной доски
-                clonedFigure.moveTo(clonedBoard.getCellByPosition(currentCell.getPosition()));
+                UndoableMove lastMove = clonedFigure.moveTo(clonedBoard.getCellByPosition(currentCell.getPosition()));
                 boolean isAttacked;
 
                 // Перестраиваем траектории атаки вражеской команды
-                if (clonedFigure.getTeam().getColor() == Color.WHITE){
-                    clonedWhiteTeam.buildAttackTrajectories();
-                    isAttacked = clonedBlackTeam.canAttackEnemyKing(clonedWhiteTeam.getKingCell());
-                }
-                else{
-                    clonedBlackTeam.buildAttackTrajectories();
-                    isAttacked = clonedWhiteTeam.canAttackEnemyKing(clonedBlackTeam.getKingCell());
-                }
+                clonedInactiveTeam.buildAttackTrajectories();
+                isAttacked = clonedInactiveTeam.canAttackEnemyKing(clonedActiveTeam.getKingCell());
 
                 // Король находится под атакой
                 if (isAttacked){
@@ -106,7 +110,8 @@ public class Judge {
                     cellsToRemove.add(currentCell);
                 }
 
-
+                // Возвращаем фигуру обратно
+                lastMove.undo();
             }
             // Удалить ячейки из траектории
             trajectory.deleteCells(cellsToRemove);

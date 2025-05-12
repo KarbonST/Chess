@@ -8,6 +8,7 @@ public class GameSnapshotFactory {
 
     /**
      * Клонирование игровой ситуации в текущий момент времени
+     * @param currentBoard игровая доска
      * @return клонированная доска
      */
     public static GameSnapshot makeSnapshot(Board currentBoard){
@@ -32,6 +33,7 @@ public class GameSnapshotFactory {
                 else{
                     clonedFigure.setTeam(clonedBlackTeam);
                 }
+
             }
         });
 
