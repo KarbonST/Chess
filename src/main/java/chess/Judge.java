@@ -39,7 +39,7 @@ public class Judge {
 
         // Для всех фигур активной команды
         for (Figure figure: activeTeam.getFigureList()){
-            editTrajectories(figure);
+            editTrajectories(figure, activeTeam, inactiveTeam);
         }
 
         // Может ли неактивная команда атаковать короля активной
