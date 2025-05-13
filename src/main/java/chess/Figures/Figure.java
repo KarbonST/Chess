@@ -70,6 +70,33 @@ public abstract class Figure {
     protected int[][] shiftPerStep;
 
     /**
+     * Состояние фигуры (заморожена/разморожена)
+     */
+    protected boolean frozen = false;
+
+    /**
+     * Заморозить фигуру
+     */
+    public void freeze(){
+        this.frozen = true;
+    }
+
+    /**
+     * Разморозить фигуру
+     */
+    public void unfreeze(){
+        this.frozen = false;
+    }
+
+    /**
+     * Получить состояние фигуры (заморожена/разморожена)
+     * @return заморожена ли фигура
+     */
+    public boolean isFrozen(){
+        return this.frozen;
+    }
+
+    /**
      * Получить команду.
      */
     public Team getTeam() {
@@ -226,6 +253,12 @@ public abstract class Figure {
      * @return последний ход
      */
     public UndoableMove moveTo(Cell targetCell){
+
+        // Фигура заморожена
+        if (isFrozen()){
+            return null;
+        }
+
         // Объединить траектории в один лист
         List<Trajectory> trajectories = new ArrayList<>(getMovementTrajectories());
         trajectories.addAll(getAttackTrajectories());

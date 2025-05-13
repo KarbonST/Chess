@@ -31,7 +31,7 @@ public class Game {
     /**
      * Список команд
      */
-    private final List teams;
+    private final List<Team> teams;
 
     /**
      * Список слушателей
@@ -48,7 +48,35 @@ public class Game {
      * Начало игры
      */
     public void start(){
-        
+
+    }
+
+    /**
+     * Заморозить все фигуры
+     */
+    private void freezeAll(){
+        // Для каждой команды
+        for (Team team: this.teams){
+            // Для всех фигур команды
+            for (Figure figure: team.getFigureList()){
+                // Заморозить фигуру
+                figure.freeze();
+            }
+        }
+    }
+
+    /**
+     * Разморозить все фигуры
+     */
+    private void unfreezeAll(){
+        // Для каждой команды
+        for (Team team: this.teams){
+            // Для всех фигур команды
+            for (Figure figure: team.getFigureList()){
+                // Разморозить фигуру
+                figure.unfreeze();
+            }
+        }
     }
 
     /**

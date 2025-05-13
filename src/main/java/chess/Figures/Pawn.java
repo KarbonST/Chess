@@ -45,7 +45,11 @@ public class Pawn extends Figure{
     @Override
     public UndoableMove moveTo(Cell targetCell){
         UndoableMove undoableMove = super.moveTo(targetCell);
-        setMovementRadius(1);
+
+        // Ход был совершен
+        if (undoableMove != null){
+            setMovementRadius(1);
+        }
 
         return undoableMove;
     }

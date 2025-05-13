@@ -161,7 +161,9 @@ public class Team {
      * @param targetCell целевая ячейка
      */
     public void moveActiveFigure(Cell targetCell){
-        this.activeFigure.moveTo(targetCell);
+        if (activeFigure != null && !activeFigure.isFrozen()) {
+            this.activeFigure.moveTo(targetCell);
+        }
     }
 
     /**
