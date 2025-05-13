@@ -1,12 +1,9 @@
 package chess.Figures;
 
-import chess.Board;
 import chess.Direction;
 import chess.Team;
 import chess.Trajectories.AttackTrajectories.AttackTrajectory;
 import chess.Trajectories.MovementTrajectories.MovementTrajectory;
-import chess.Trajectories.Trajectory;
-
 import java.util.List;
 
 /**

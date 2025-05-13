@@ -39,7 +39,7 @@ public class Judge {
 
         // Для всех фигур активной команды
         for (Figure figure: activeTeam.getFigureList()){
-            editTrajectories(figure, activeTeam, inactiveTeam);
+            editTrajectories(figure, activeTeam);
         }
 
         // Может ли неактивная команда атаковать короля активной
@@ -59,16 +59,19 @@ public class Judge {
         }
 
         // У команды нет доступных ходов и её королю не угрожают
-        return GameStatus.STALEMATE; // Объявлен пат
+        if (!hasAvailableMoves) {
+            return GameStatus.STALEMATE; // Объявлен пат
+        }
+
+        return GameStatus.GAME_IS_ON;
     }
 
     /**
      * Редактировать траекторию
      * @param figureActiveTeam фигура активной команды
      * @param activeTeam активная команда
-     * @param inactiveTeam неактивная команда
      */
-    private void editTrajectories(Figure figureActiveTeam, Team activeTeam, Team inactiveTeam){
+    private void editTrajectories(Figure figureActiveTeam, Team activeTeam){
         // Объединить траектории в один лист
         List<Trajectory> trajectories = new ArrayList<>(figureActiveTeam.getMovementTrajectories());
         trajectories.addAll(figureActiveTeam.getAttackTrajectories());
@@ -118,6 +121,4 @@ public class Judge {
         }
 
     }
-
-
 }

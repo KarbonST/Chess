@@ -1,5 +1,13 @@
 package chess;
 
+import chess.Figures.Figure;
+import chess.events.FigureActionListener;
+import chess.events.FigureActivatedEvent;
+import chess.events.FigureMovedEvent;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 /**
  * Игра.
  */
@@ -16,19 +24,95 @@ public class Game {
     private final Placement placement;
 
     /**
-     * Команда белых
+     * Активная команда
      */
-    private final Team whiteTeam;
+    private Team activeTeam;
 
     /**
-     * Команда черных
+     * Список команд
      */
-    private final Team blackTeam;
+    private final List teams;
+
+    /**
+     * Список слушателей
+     */
+    private final List<FigureActionListener> figureListeners = new CopyOnWriteArrayList<>();
 
     Game(){
         this.board = new Board();
         this.placement = new Placement(this.board);
-        this.whiteTeam = this.placement.getWhiteTeam();
-        this.blackTeam = this.placement.getBlackTeam();
+        this.teams = List.of(this.placement.getWhiteTeam(), this.placement.getBlackTeam());
     }
+
+    /**
+     * Начало игры
+     */
+    public void start(){
+        
+    }
+
+    /**
+     * Передать ход другой команде
+     */
+
+    /**
+     * Заморозить фигуры
+     */
+
+    /**
+     * Разморозить фигуры
+     */
+
+    /**
+     * Определить исход игры
+     */
+
+    /**
+     * Задать победителя
+     */
+
+    /**
+     * Задать ничью
+     */
+
+    /**
+     * Регистрация слушателей
+     * @param l слушатель
+     */
+    public void addFigureActionListener(FigureActionListener l){
+        figureListeners.add(l);
+    }
+
+    /**
+     * Удаление слушателей
+     * @param l слушатель
+     */
+    public void removeFigureActionListener(FigureActionListener l){
+        figureListeners.remove(l);
+    }
+
+    /**
+     * Рассылка событий активации фигуры
+     * @param figure фигура
+     */
+    private void fireFigureActivated(Figure figure){
+        FigureActivatedEvent event = new FigureActivatedEvent(this, figure);
+        for (var l: figureListeners){
+            l.figureActivated(event);
+        }
+    }
+
+    /**
+     * Рассылка событий перемещения фигуры
+     * @param figure фигура
+     * @param from ячейка, из которой фигура переместилась
+     * @param to ячейка, в которую фигура переместилась
+     */
+    private void fireFigureMoved(Figure figure, Cell from, Cell to){
+        FigureMovedEvent event = new FigureMovedEvent(this, figure, from, to);
+        for (var l: figureListeners){
+            l.figureMoved(event);
+        }
+    }
+
 }

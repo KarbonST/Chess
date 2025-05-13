@@ -3,9 +3,6 @@ package chess;
 import chess.Figures.FiguresFactory;
 import chess.Figures.Figure;
 import chess.Figures.FiguresTypes;
-import chess.Trajectories.MovementTrajectories.MovementTrajectory;
-import chess.Trajectories.Trajectory;
-
 import java.awt.*;
 import java.util.Map;
 import java.util.HashMap;
@@ -23,6 +20,10 @@ public class Placement {
      * Команда белых.
      */
     private final Team whiteTeam;
+
+    /**
+     * Команда черных
+     */
     private final Team blackTeam;
 
     /**

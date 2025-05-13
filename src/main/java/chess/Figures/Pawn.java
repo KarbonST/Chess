@@ -1,12 +1,10 @@
 package chess.Figures;
 
-import chess.Board;
+import chess.Cell;
 import chess.Direction;
 import chess.Team;
 import chess.Trajectories.AttackTrajectories.AttackTrajectory;
 import chess.Trajectories.MovementTrajectories.MovementTrajectory;
-import chess.Trajectories.Trajectory;
-
 import java.awt.*;
 import java.util.List;
 
@@ -42,5 +40,13 @@ public class Pawn extends Figure{
     @Override
     public Figure cloneFigure(){
         return new Pawn(this.team);
+    }
+
+    @Override
+    public UndoableMove moveTo(Cell targetCell){
+        UndoableMove undoableMove = super.moveTo(targetCell);
+        setMovementRadius(1);
+
+        return undoableMove;
     }
 }

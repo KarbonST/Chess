@@ -5,9 +5,6 @@ import chess.Direction;
 import chess.Team;
 import chess.Trajectories.AttackTrajectories.AttackTrajectory;
 import chess.Trajectories.MovementTrajectories.MovementTrajectory;
-import chess.Trajectories.Trajectory;
-
-import java.awt.*;
 import java.util.List;
 
 /**

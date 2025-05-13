@@ -148,7 +148,6 @@ public class Team {
 
         // Для всех фигур команды
         for(Figure figure: figureList){
-
             // Возвращаем ячейку короля
             if (figure.getFigureType() == FiguresTypes.KING){
                 return figure.getCell();
