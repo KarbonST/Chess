@@ -5,6 +5,7 @@ import chess.events.FigureActionListener;
 import chess.events.FigureActivatedEvent;
 import chess.events.FigureMovedEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -16,12 +17,12 @@ public class Game {
     /**
      * Доска
      */
-    private final Board board;
+    private Board board;
 
     /**
      * Расстановка
      */
-    private final Placement placement;
+    private Placement placement;
 
     /**
      * Активная команда
@@ -39,9 +40,7 @@ public class Game {
     private final List<FigureActionListener> figureListeners = new CopyOnWriteArrayList<>();
 
     Game(){
-        this.board = new Board();
-        this.placement = new Placement(this.board);
-        this.teams = List.of(this.placement.getWhiteTeam(), this.placement.getBlackTeam());
+        this.teams = new ArrayList<>();
     }
 
     /**
@@ -49,6 +48,19 @@ public class Game {
      */
     public void start(){
 
+        // Создание доски и расстановки
+        this.board = new Board();
+        this.placement = new Placement(this.board);
+
+        // Инициализация команд
+        Team white = placement.getWhiteTeam();
+        Team black = placement.getBlackTeam();
+        teams.clear();
+        teams.add(white);
+        teams.add(black);
+
+        // Выбор того, кто ходит первым
+        this.activeTeam = white;
     }
 
     /**
