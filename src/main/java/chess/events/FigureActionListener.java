@@ -6,14 +6,14 @@ public interface FigureActionListener extends EventListener {
 
     /**
      * Фигуру выбрали в качестве активной
-     * @param figureActionEvent объект события активации фигуры
+     * @param figureActivatedEvent объект события активации фигуры
      */
-    void figureActivated(FigureActionEvent figureActionEvent);
+    void figureActivated(FigureActivatedEvent figureActivatedEvent);
 
     /**
      * Фигура перемещается
-     * @param figureActionEvent объект события перемещения фигуры
+     * @param figureMovedEvent объект события перемещения фигуры
      */
-    void figureMoved(FigureActionEvent figureActionEvent);
+    void figureMoved(FigureMovedEvent figureMovedEvent);
 
 }

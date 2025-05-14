@@ -25,9 +25,19 @@ public class Game {
     private Placement placement;
 
     /**
+     * Судья
+     */
+    private Judge judge;
+
+    /**
      * Активная команда
      */
     private Team activeTeam;
+
+    /**
+     * Неактивная команда
+     */
+    private Team inactiveTeam;
 
     /**
      * Список команд
@@ -48,19 +58,24 @@ public class Game {
      */
     public void start(){
 
-        // Создание доски и расстановки
+        // Создание доски, расстановки и судьи
         this.board = new Board();
         this.placement = new Placement(this.board);
+        this.judge = new Judge(this.board);
 
         // Инициализация команд
-        Team white = placement.getWhiteTeam();
-        Team black = placement.getBlackTeam();
-        teams.clear();
-        teams.add(white);
-        teams.add(black);
+        Team white = this.placement.getWhiteTeam();
+        Team black = this.placement.getBlackTeam();
+        this.teams.clear();
+        this.teams.add(white);
+        this.teams.add(black);
 
         // Выбор того, кто ходит первым
         this.activeTeam = white;
+        this.inactiveTeam = black;
+
+        // Размораживаем фигуры
+        unfreezeAll();
     }
 
     /**
@@ -94,18 +109,26 @@ public class Game {
     /**
      * Передать ход другой команде
      */
+    private void changeTeam(){
+        // Заморозка фигур
+        freezeAll();
 
-    /**
-     * Заморозить фигуры
-     */
+        // Передать ход другой команде
+        int activeTeamIndex = this.teams.indexOf(this.activeTeam);
+        this.inactiveTeam = this.activeTeam;
+        this.activeTeam = this.teams.get((activeTeamIndex + 1) % this.teams.size());
 
-    /**
-     * Разморозить фигуры
-     */
+        // Определить исход игры
+
+    }
+
 
     /**
      * Определить исход игры
      */
+    private void determineGameFinish(){
+        GameStatus gameStatus = judge.determineGameStatus(activeTeam, inactiveTeam);
+    }
 
     /**
      * Задать победителя
