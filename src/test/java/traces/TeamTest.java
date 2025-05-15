@@ -29,10 +29,10 @@ class TeamTest {
 
     @Test
     void testAddAndDeleteFigure() {
-        Pawn pawn = new Pawn(whiteTeam);
         assertTrue(whiteTeam.getFigureList().isEmpty(), "Initially empty");
+        Pawn pawn = new Pawn(whiteTeam);
+        pawn.setTeam(whiteTeam);
 
-        whiteTeam.addFigure(pawn);
         assertTrue(whiteTeam.getFigureList().contains(pawn), "Added pawn");
         assertEquals(whiteTeam, pawn.getTeam(), "Pawn’s team set");
 

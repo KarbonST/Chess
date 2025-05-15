@@ -18,7 +18,7 @@ public class Judge {
      */
     private final Board board;
 
-    Judge(Board board){
+    public Judge(Board board){
         this.board = board;
     }
 
@@ -39,7 +39,7 @@ public class Judge {
 
         // Для всех фигур неактивной команды
         for (Figure figure: inactiveTeam.getFigureList()){
-            editTrajectories(figure, activeTeam);
+            editTrajectories(figure, inactiveTeam);
         }
 
         // Может ли активная команда атаковать короля неактивной
