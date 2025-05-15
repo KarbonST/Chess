@@ -14,11 +14,10 @@ public class GameFinishWinnerEvent extends GameFinishActionEvent{
      * Constructs a prototypical Event.
      *
      * @param source the object on which the Event initially occurred
-     * @param game game
      * @throws IllegalArgumentException if source is null
      */
-    public GameFinishWinnerEvent(Object source, Game game, Team winnerTeam) {
-        super(source, game);
+    public GameFinishWinnerEvent(Object source,Team winnerTeam) {
+        super(source);
         this.winnerTeam = winnerTeam;
     }
 

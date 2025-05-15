@@ -1,9 +1,7 @@
 package chess;
 
 import chess.Figures.Figure;
-import chess.events.FigureActionListener;
-import chess.events.FigureActivatedEvent;
-import chess.events.FigureMovedEvent;
+import chess.events.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +43,19 @@ public class Game {
     private final List<Team> teams;
 
     /**
-     * Список слушателей
+     * Список слушателей изменений фигур
      */
-    private final List<FigureActionListener> figureListeners = new CopyOnWriteArrayList<>();
+    private final List<FigureActionListener> figureListeners;
+
+    /**
+     * Список слушателей результатов игры
+     */
+    private final List<GameFinishActionListener> gameFinishListeners;
 
     Game(){
         this.teams = new ArrayList<>();
+        this.figureListeners = new CopyOnWriteArrayList<>();
+        this.gameFinishListeners = new CopyOnWriteArrayList<>();
     }
 
     /**
@@ -76,6 +81,55 @@ public class Game {
 
         // Размораживаем фигуры
         unfreezeAll();
+
+    }
+
+    /**
+     * Выбор активной фигуры
+     * @param pos позиция фигуры
+     */
+    public void onFigureSelected(CellPosition pos){
+        // Игнорировать, если выбрана фигура неактивной команды
+        Cell figureCell = board.getCellByPosition(pos);
+        Figure figure = figureCell.getFigure();
+        if (figure == null || figure.getTeam() != activeTeam || figure.isFrozen()){
+            clearSelection();
+            return;
+        }
+
+        // Запоминаем выбранную фигуру
+        this.activeTeam.setActiveFigure(figure);
+
+        // Оповещаем GUI о выборе фигуры
+        fireFigureActivated(figure);
+    }
+
+    /**
+     * Сделать ход активной фигуры
+     * @param targetCellPos целевая позиция ячейки
+     */
+    public void onFigureMoved(CellPosition targetCellPos){
+        // Не было активной фигуры
+        if (this.activeTeam.getActiveFigure() == null){
+            return;
+        }
+
+        // Кликнули по ячейке, которая не входит в траекторию фигуры
+        Cell targetCell = board.getCellByPosition(targetCellPos);
+        if (!this.activeTeam.getActiveFigure().getAllCellsFromTrajectories().contains(targetCell)){
+            clearSelection();
+            return;
+        }
+
+        // Двигаем фигуру
+        Cell fromCell = this.activeTeam.getActiveFigure().getCell();
+        this.activeTeam.moveActiveFigure(targetCell);
+
+        // Оповещаем GUI о перемещении фигуры
+        fireFigureMoved(this.activeTeam.getActiveFigure(), fromCell, targetCell);
+
+        // Передать ход другой команде
+
     }
 
     /**
@@ -106,6 +160,12 @@ public class Game {
         }
     }
 
+    private void clearSelection(){
+        activeTeam.setActiveFigure(null);
+
+        // TODO оповестить GUI о том, что нужно убрать подсветку с активной фигуры
+    }
+
     /**
      * Передать ход другой команде
      */
@@ -118,16 +178,29 @@ public class Game {
         this.inactiveTeam = this.activeTeam;
         this.activeTeam = this.teams.get((activeTeamIndex + 1) % this.teams.size());
 
-        // Определить исход игры
-
+        // Разморозить фигуры
+        unfreezeAll();
     }
 
 
     /**
      * Определить исход игры
+     * @return идет ли игра
      */
-    private void determineGameFinish(){
+    private boolean determineGameFinish(){
         GameStatus gameStatus = judge.determineGameStatus(activeTeam, inactiveTeam);
+
+        if (gameStatus == GameStatus.CHECKMATE){
+            gameFinishWithWinner(inactiveTeam);
+            return false;
+        }
+
+        if (gameStatus == GameStatus.STALEMATE){
+            gameFinishInDraw();
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -139,7 +212,7 @@ public class Game {
      */
 
     /**
-     * Регистрация слушателей
+     * Регистрация слушателей изменения состояния фигур
      * @param l слушатель
      */
     public void addFigureActionListener(FigureActionListener l){
@@ -147,11 +220,27 @@ public class Game {
     }
 
     /**
-     * Удаление слушателей
+     * Удаление слушателей изменения состояния фигур
      * @param l слушатель
      */
     public void removeFigureActionListener(FigureActionListener l){
         figureListeners.remove(l);
+    }
+
+    /**
+     * Регистрация слушателей результата игры
+     * @param l слушатель
+     */
+    public void addGameFinishActionListener(GameFinishActionListener l){
+        gameFinishListeners.add(l);
+    }
+
+    /**
+     * Удаление слушателей результата игры
+     * @param l слушатель
+     */
+    public void removeGameFinishActionListener(GameFinishActionListener l){
+        gameFinishListeners.remove(l);
     }
 
     /**
@@ -175,6 +264,26 @@ public class Game {
         FigureMovedEvent event = new FigureMovedEvent(this, figure, from, to);
         for (var l: figureListeners){
             l.figureMoved(event);
+        }
+    }
+
+    /**
+     * Рассылка событий завершения игры в ничью
+     */
+    private void gameFinishInDraw (){
+        GameFinishDrawEvent event = new GameFinishDrawEvent(this);
+        for (var l: gameFinishListeners){
+            l.gameFinishInDraw(event);
+        }
+    }
+
+    /**
+     * Рассылка событий завершения игры с победителем
+     */
+    private void gameFinishWithWinner(Team winnerTeam){
+        GameFinishWinnerEvent event = new GameFinishWinnerEvent(this, winnerTeam);
+        for (var l: gameFinishListeners){
+            l.gameFinishWithWinner(event);
         }
     }
 

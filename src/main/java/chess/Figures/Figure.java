@@ -174,6 +174,26 @@ public abstract class Figure {
     }
 
     /**
+     * Получить список ячеек из всех траекторий
+     * @return список всех доступных позиций для движения
+     */
+    public List<Cell> getAllCellsFromTrajectories(){
+        List<Cell> allCells = new ArrayList<>();
+
+        // Для всех траекторий движения
+        for (Trajectory trajectory: getMovementTrajectories()){
+            allCells.addAll(trajectory.getCells());
+        }
+
+        // Для всех траекторий атаки
+        for (Trajectory trajectory: getAttackTrajectories()){
+            allCells.addAll(trajectory.getCells());
+        }
+
+        return allCells;
+    }
+
+    /**
      * Получить радиус траектории движения
      * @return радиус траектории движения
      */

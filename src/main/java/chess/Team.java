@@ -91,10 +91,10 @@ public class Team {
 
     /**
      * Задать активную фигуру
-     * @param activeCell ячейка фигуры
+     * @param activeFigure фигура
      */
-    public void setActiveFigure(Cell activeCell){
-        this.activeFigure = getFigureByCell(activeCell);
+    public void setActiveFigure(Figure activeFigure){
+        this.activeFigure = activeFigure;
     }
 
     /**
