@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Knight extends Figure{
 
-    Knight(Team team) {
+    public Knight(Team team) {
         super(team);
         this.movementRadius = 1;
         this.attackRadius = 1;

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Queen extends Figure{
 
-    Queen(Team team) {
+    public Queen(Team team) {
         super(team);
         this.movementRadius = Board.getBoardSize();
         this.attackRadius = Board.getBoardSize();

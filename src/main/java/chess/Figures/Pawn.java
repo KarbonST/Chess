@@ -5,6 +5,8 @@ import chess.Direction;
 import chess.Team;
 import chess.Trajectories.AttackTrajectories.AttackTrajectory;
 import chess.Trajectories.MovementTrajectories.MovementTrajectory;
+import chess.Trajectories.Trajectory;
+
 import java.awt.*;
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
  */
 public class Pawn extends Figure{
 
-    Pawn(Team team) {
+    public Pawn(Team team) {
         super(team);
         this.movementRadius = 2;
         this.attackRadius = 1;
@@ -47,8 +49,11 @@ public class Pawn extends Figure{
         UndoableMove undoableMove = super.moveTo(targetCell);
 
         // Ход был совершен
-        if (undoableMove != null){
+        if (hasMoved()){
             setMovementRadius(1);
+            for(Trajectory trajectory: getMovementTrajectories()){
+                trajectory.setStepsCount(1);
+            }
         }
 
         return undoableMove;

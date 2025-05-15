@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Rook extends Figure{
 
-    Rook(Team team) {
+    public Rook(Team team) {
         super(team);
         this.movementRadius = Board.getBoardSize();
         this.attackRadius = Board.getBoardSize();

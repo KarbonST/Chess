@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Bishop extends Figure{
 
-    Bishop(Team team) {
+    public Bishop(Team team) {
         super(team);
         this.movementRadius = Board.getBoardSize();
         this.attackRadius = Board.getBoardSize();

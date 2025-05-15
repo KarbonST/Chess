@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class King extends Figure{
 
-    King(Team team) {
+    public King(Team team) {
         super(team);
         this.movementRadius = 1;
         this.attackRadius = 1;
