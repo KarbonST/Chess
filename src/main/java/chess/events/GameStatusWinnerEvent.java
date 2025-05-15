@@ -1,9 +1,8 @@
 package chess.events;
 
-import chess.Game;
 import chess.Team;
 
-public class GameFinishWinnerEvent extends GameFinishActionEvent{
+public class GameStatusWinnerEvent extends GameStatusActionEvent {
 
     /**
      * Команда победитель
@@ -16,7 +15,7 @@ public class GameFinishWinnerEvent extends GameFinishActionEvent{
      * @param source the object on which the Event initially occurred
      * @throws IllegalArgumentException if source is null
      */
-    public GameFinishWinnerEvent(Object source,Team winnerTeam) {
+    public GameStatusWinnerEvent(Object source, Team winnerTeam) {
         super(source);
         this.winnerTeam = winnerTeam;
     }

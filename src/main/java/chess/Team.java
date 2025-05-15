@@ -19,11 +19,6 @@ public class Team {
     private final List<Figure> figureList;
 
     /**
-     * Активная фигура
-     */
-    private Figure activeFigure;
-
-    /**
      * Цвет команды
      */
     private final Color color;
@@ -69,14 +64,6 @@ public class Team {
     }
 
     /**
-     * Получить активную фигуру
-     * @return активная фигура
-     */
-    public Figure getActiveFigure() {
-        return activeFigure;
-    }
-
-    /**
      * Получить фигуру по ячейке
      * @param targetCell искомая ячейка
      */
@@ -87,14 +74,6 @@ public class Team {
             }
         }
         return null;
-    }
-
-    /**
-     * Задать активную фигуру
-     * @param activeFigure фигура
-     */
-    public void setActiveFigure(Figure activeFigure){
-        this.activeFigure = activeFigure;
     }
 
     /**
@@ -159,10 +138,11 @@ public class Team {
     /**
      * Переместить активную фигуру в заданную ячейку
      * @param targetCell целевая ячейка
+     * @param figure фигура
      */
-    public void moveActiveFigure(Cell targetCell){
-        if (activeFigure != null && !activeFigure.isFrozen()) {
-            this.activeFigure.moveTo(targetCell);
+    public void moveFigure(Cell targetCell, Figure figure){
+        if (figure != null && !figure.isFrozen()) {
+            figure.moveTo(targetCell);
         }
     }
 

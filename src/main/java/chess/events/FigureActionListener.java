@@ -11,6 +11,11 @@ public interface FigureActionListener extends EventListener {
     void figureActivated(FigureActivatedEvent figureActivatedEvent);
 
     /**
+     * Фигуру деактивировали
+     */
+    void figureDeactivated(FigureClearSelectedEvent figureClearSelectedEvent);
+
+    /**
      * Фигура перемещается
      * @param figureMovedEvent объект события перемещения фигуры
      */

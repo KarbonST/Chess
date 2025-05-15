@@ -2,14 +2,24 @@ package chess.events;
 
 import chess.Game;
 
-public class GameFinishDrawEvent extends GameFinishActionEvent{
+import java.util.EventObject;
+
+public class GameStatusActionEvent extends EventObject {
+
     /**
      * Constructs a prototypical Event.
      *
      * @param source the object on which the Event initially occurred
      * @throws IllegalArgumentException if source is null
      */
-    public GameFinishDrawEvent(Object source) {
+    public GameStatusActionEvent(Object source) {
         super(source);
+    }
+
+    /**
+     * Получить игру
+     */
+    public Game getGame(){
+        return (Game) getSource();
     }
 }

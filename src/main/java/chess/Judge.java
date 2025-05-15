@@ -29,24 +29,24 @@ public class Judge {
      * @return состояние игры
      */
     public GameStatus determineGameStatus(Team activeTeam, Team inactiveTeam){
-        // Для всех фигур неактивной команды
-        for (Figure figure: inactiveTeam.getFigureList()){
+        // Для всех фигур активной команды
+        for (Figure figure: activeTeam.getFigureList()){
             // Перестроить траектории атаки
             for (Trajectory trajectory: figure.getAttackTrajectories()){
                 trajectory.buildTrajectory(figure.getCell());
             }
         }
 
-        // Для всех фигур активной команды
-        for (Figure figure: activeTeam.getFigureList()){
+        // Для всех фигур неактивной команды
+        for (Figure figure: inactiveTeam.getFigureList()){
             editTrajectories(figure, activeTeam);
         }
 
-        // Может ли неактивная команда атаковать короля активной
-        boolean canAttack = inactiveTeam.canAttackEnemyKing(activeTeam.getKingCell());
+        // Может ли активная команда атаковать короля неактивной
+        boolean canAttack = activeTeam.canAttackEnemyKing(inactiveTeam.getKingCell());
 
-        // Есть ли у активной команды доступные ходы
-        boolean hasAvailableMoves = activeTeam.hasFigureWithAvailableMoves();
+        // Есть ли у неактивной команды доступные ходы
+        boolean hasAvailableMoves = inactiveTeam.hasFigureWithAvailableMoves();
 
         // У команды нет доступных ходов и её королю угрожают
         if (canAttack && !hasAvailableMoves){

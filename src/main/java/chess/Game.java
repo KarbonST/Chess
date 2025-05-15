@@ -18,11 +18,6 @@ public class Game {
     private Board board;
 
     /**
-     * Расстановка
-     */
-    private Placement placement;
-
-    /**
      * Судья
      */
     private Judge judge;
@@ -38,6 +33,11 @@ public class Game {
     private Team inactiveTeam;
 
     /**
+     * Активная фигура
+     */
+    private Figure activeFigure;
+
+    /**
      * Список команд
      */
     private final List<Team> teams;
@@ -50,12 +50,12 @@ public class Game {
     /**
      * Список слушателей результатов игры
      */
-    private final List<GameFinishActionListener> gameFinishListeners;
+    private final List<GameStatusActionListener> gameStatusListeners;
 
     Game(){
         this.teams = new ArrayList<>();
         this.figureListeners = new CopyOnWriteArrayList<>();
-        this.gameFinishListeners = new CopyOnWriteArrayList<>();
+        this.gameStatusListeners = new CopyOnWriteArrayList<>();
     }
 
     /**
@@ -65,12 +65,12 @@ public class Game {
 
         // Создание доски, расстановки и судьи
         this.board = new Board();
-        this.placement = new Placement(this.board);
+        Placement placement = new Placement(this.board);
         this.judge = new Judge(this.board);
 
         // Инициализация команд
-        Team white = this.placement.getWhiteTeam();
-        Team black = this.placement.getBlackTeam();
+        Team white = placement.getWhiteTeam();
+        Team black = placement.getBlackTeam();
         this.teams.clear();
         this.teams.add(white);
         this.teams.add(black);
@@ -98,7 +98,7 @@ public class Game {
         }
 
         // Запоминаем выбранную фигуру
-        this.activeTeam.setActiveFigure(figure);
+        this.activeFigure = figure;
 
         // Оповещаем GUI о выборе фигуры
         fireFigureActivated(figure);
@@ -110,26 +110,27 @@ public class Game {
      */
     public void onFigureMoved(CellPosition targetCellPos){
         // Не было активной фигуры
-        if (this.activeTeam.getActiveFigure() == null){
+        if (this.activeFigure == null){
             return;
         }
 
         // Кликнули по ячейке, которая не входит в траекторию фигуры
         Cell targetCell = board.getCellByPosition(targetCellPos);
-        if (!this.activeTeam.getActiveFigure().getAllCellsFromTrajectories().contains(targetCell)){
+        if (!this.activeFigure.getAllCellsFromTrajectories().contains(targetCell)){
             clearSelection();
             return;
         }
 
         // Двигаем фигуру
-        Cell fromCell = this.activeTeam.getActiveFigure().getCell();
-        this.activeTeam.moveActiveFigure(targetCell);
+        Cell fromCell = this.activeFigure.getCell();
+        this.activeTeam.moveFigure(targetCell, this.activeFigure);
 
         // Оповещаем GUI о перемещении фигуры
-        fireFigureMoved(this.activeTeam.getActiveFigure(), fromCell, targetCell);
+        fireFigureMoved(this.activeFigure, fromCell, targetCell);
 
         // Передать ход другой команде
-
+        clearSelection();
+        changeTeam();
     }
 
     /**
@@ -161,9 +162,11 @@ public class Game {
     }
 
     private void clearSelection(){
-        activeTeam.setActiveFigure(null);
+        if (this.activeFigure != null){
+            fireFigureDeactivated(this.activeFigure);
+        }
 
-        // TODO оповестить GUI о том, что нужно убрать подсветку с активной фигуры
+        this.activeFigure = null;
     }
 
     /**
@@ -173,43 +176,34 @@ public class Game {
         // Заморозка фигур
         freezeAll();
 
+        // Определить состояние игры
+        GameStatus gameStatus =  this.judge.determineGameStatus(this.activeTeam, this.inactiveTeam);
+
+        // Был объявлен шах
+        if (gameStatus == GameStatus.CHECK){
+            fireCheck(this.inactiveTeam);
+            return;
+        }
+
+        // Был объявлен пат
+        if (gameStatus == GameStatus.STALEMATE){
+            fireGameDrawn();
+            return;
+        }
+
+        // Был объявлен мат
+        if (gameStatus == GameStatus.CHECKMATE){
+            fireGameWon(this.activeTeam);
+            return;
+        }
+
         // Передать ход другой команде
         int activeTeamIndex = this.teams.indexOf(this.activeTeam);
         this.inactiveTeam = this.activeTeam;
         this.activeTeam = this.teams.get((activeTeamIndex + 1) % this.teams.size());
 
-        // Разморозить фигуры
         unfreezeAll();
     }
-
-
-    /**
-     * Определить исход игры
-     * @return идет ли игра
-     */
-    private boolean determineGameFinish(){
-        GameStatus gameStatus = judge.determineGameStatus(activeTeam, inactiveTeam);
-
-        if (gameStatus == GameStatus.CHECKMATE){
-            gameFinishWithWinner(inactiveTeam);
-            return false;
-        }
-
-        if (gameStatus == GameStatus.STALEMATE){
-            gameFinishInDraw();
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Задать победителя
-     */
-
-    /**
-     * Задать ничью
-     */
 
     /**
      * Регистрация слушателей изменения состояния фигур
@@ -231,16 +225,16 @@ public class Game {
      * Регистрация слушателей результата игры
      * @param l слушатель
      */
-    public void addGameFinishActionListener(GameFinishActionListener l){
-        gameFinishListeners.add(l);
+    public void addGameFinishActionListener(GameStatusActionListener l){
+        gameStatusListeners.add(l);
     }
 
     /**
      * Удаление слушателей результата игры
      * @param l слушатель
      */
-    public void removeGameFinishActionListener(GameFinishActionListener l){
-        gameFinishListeners.remove(l);
+    public void removeGameFinishActionListener(GameStatusActionListener l){
+        gameStatusListeners.remove(l);
     }
 
     /**
@@ -249,8 +243,19 @@ public class Game {
      */
     private void fireFigureActivated(Figure figure){
         FigureActivatedEvent event = new FigureActivatedEvent(this, figure);
-        for (var l: figureListeners){
+        for (var l: this.figureListeners){
             l.figureActivated(event);
+        }
+    }
+
+    /**
+     * Рассылка событий деактивации фигуры
+     * @param figure фигура
+     */
+    private void fireFigureDeactivated(Figure figure){
+        FigureClearSelectedEvent event = new FigureClearSelectedEvent(this, figure);
+        for (var l: this.figureListeners){
+            l.figureDeactivated(event);
         }
     }
 
@@ -262,7 +267,7 @@ public class Game {
      */
     private void fireFigureMoved(Figure figure, Cell from, Cell to){
         FigureMovedEvent event = new FigureMovedEvent(this, figure, from, to);
-        for (var l: figureListeners){
+        for (var l: this.figureListeners){
             l.figureMoved(event);
         }
     }
@@ -270,20 +275,32 @@ public class Game {
     /**
      * Рассылка событий завершения игры в ничью
      */
-    private void gameFinishInDraw (){
-        GameFinishDrawEvent event = new GameFinishDrawEvent(this);
-        for (var l: gameFinishListeners){
+    private void fireGameDrawn(){
+        GameStatusDrawEvent event = new GameStatusDrawEvent(this);
+        for (var l: this.gameStatusListeners){
             l.gameFinishInDraw(event);
         }
     }
 
     /**
      * Рассылка событий завершения игры с победителем
+     * @param winnerTeam команда победитель
      */
-    private void gameFinishWithWinner(Team winnerTeam){
-        GameFinishWinnerEvent event = new GameFinishWinnerEvent(this, winnerTeam);
-        for (var l: gameFinishListeners){
+    private void fireGameWon(Team winnerTeam){
+        GameStatusWinnerEvent event = new GameStatusWinnerEvent(this, winnerTeam);
+        for (var l: this.gameStatusListeners){
             l.gameFinishWithWinner(event);
+        }
+    }
+
+    /**
+     * Рассылка событий постановки шаха команде
+     * @param teamWithCheck команда, которой объявлен шах
+     */
+    private void fireCheck(Team teamWithCheck){
+        GameStatusCheckEvent event = new GameStatusCheckEvent(this, teamWithCheck);
+        for (var l: this.gameStatusListeners){
+            l.teamHasCheck(event);
         }
     }
 
