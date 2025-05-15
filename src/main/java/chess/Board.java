@@ -22,7 +22,7 @@ public class Board {
     private final Map<CellPosition, Cell> cells;
 
 
-    Board(){
+    public Board(){
         this.cells = new HashMap<>();
         for (int i = 0; i < BOARD_SIZE; i++){
             for (int j = 0; j < BOARD_SIZE; j++){
@@ -70,24 +70,6 @@ public class Board {
      */
     public Map<CellPosition, Cell> getCells() {
         return cells;
-    }
-
-    /**
-     * Клонировать доску.
-     */
-    public Board cloneBoard(){
-        // Создаём новый экземпляр доски
-        Board clonedBoard = new Board();
-
-        // Для всех ячеек старой доски
-        this.cells.forEach((key, val) -> {
-            if (val.getFigure() != null){
-                Figure clonedFigure = val.getFigure().cloneFigure();
-                clonedBoard.getCellByPosition(key).setFigure(clonedFigure);
-            }
-        });
-
-        return clonedBoard;
     }
 
     /**

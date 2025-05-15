@@ -23,7 +23,7 @@ public class Team {
      */
     private final Color color;
 
-    Team(Color color){
+    public Team(Color color){
         this.figureList = new ArrayList<>();
         this.color = color;
     }

@@ -103,7 +103,7 @@ public abstract class Figure {
         return this.team;
     }
 
-    Figure(Team team){
+    protected Figure(Team team){
         this.team = team;
     }
 
