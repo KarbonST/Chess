@@ -35,6 +35,7 @@ public class Judge {
             for (Trajectory trajectory: figure.getAttackTrajectories()){
                 trajectory.buildTrajectory(figure.getCell());
             }
+            editTrajectories(figure, activeTeam);
         }
 
         // Для всех фигур неактивной команды
