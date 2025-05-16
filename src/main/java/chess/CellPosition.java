@@ -38,6 +38,7 @@ public class CellPosition {
         return this.col;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

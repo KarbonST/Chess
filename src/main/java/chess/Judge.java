@@ -39,6 +39,13 @@ public class Judge {
 
         // Для всех фигур неактивной команды
         for (Figure figure: inactiveTeam.getFigureList()){
+            // Перестроить траектории движения и атаки
+            for (Trajectory trajectory: figure.getMovementTrajectories()){
+                trajectory.buildTrajectory(figure.getCell());
+            }
+            for (Trajectory trajectory: figure.getAttackTrajectories()){
+                trajectory.buildTrajectory(figure.getCell());
+            }
             editTrajectories(figure, inactiveTeam);
         }
 

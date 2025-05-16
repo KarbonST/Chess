@@ -52,7 +52,7 @@ public class Game {
      */
     private final List<GameStatusActionListener> gameStatusListeners;
 
-    Game(){
+    public Game(){
         this.teams = new ArrayList<>();
         this.figureListeners = new CopyOnWriteArrayList<>();
         this.gameStatusListeners = new CopyOnWriteArrayList<>();

@@ -32,8 +32,13 @@ class JudgeTest {
     @Test
     void testGameIsOn() {
         // White king far from black king, no attacking pieces
-        place(new King(white), 0, 0);
-        place(new King(black), 7, 7);
+        Figure k1 = new King(white);
+        Figure k2 = new King(black);
+        k1.setTeam(white);
+        k2.setTeam(black);
+
+        place(k1, 0, 0);
+        place(k2, 7, 7);
         // build all trajectories
         white.buildMovementTrajectories();
         white.buildAttackTrajectories();
@@ -46,10 +51,17 @@ class JudgeTest {
 
     @Test
     void testCheck() {
+        Figure k1 = new King(white);
+        Figure k2 = new King(black);
+        Figure r1 = new Rook(white);
+        k1.setTeam(white);
+        k2.setTeam(black);
+        r1.setTeam(white);
+
         // Black king at (7,7), white rook attacking along row
-        place(new King(white), 0, 0);
-        place(new King(black), 7, 7);
-        place(new Rook(white), 7, 5);
+        place(k1, 0, 0);
+        place(k2, 7, 7);
+        place(r1, 7, 5);
 
         white.buildAttackTrajectories();
         white.buildMovementTrajectories();
@@ -63,12 +75,21 @@ class JudgeTest {
 
     @Test
     void testCheckmate() {
+        Figure k1 = new King(white);
+        Figure k2 = new King(black);
+        Figure r1 = new Rook(white);
+        Figure r2 = new Rook(white);
+        k1.setTeam(white);
+        k2.setTeam(black);
+        r1.setTeam(white);
+        r2.setTeam(white);
+
         // Black king flanked by two white rooks:
-        // one at (7,6), one at (6,7): king at (7,7) attacked and no escape
-        place(new King(white), 0, 0);
-        place(new King(black), 7, 7);
-        place(new Rook(white), 7, 6);
-        place(new Rook(white), 6, 7);
+        // one at (6,6), one at (6,7): king at (7,7) no escape
+        place(k1, 0, 0);
+        place(k2, 7, 7);
+        place(r1, 6, 6);
+        place(r2, 6, 7);
 
         white.buildAttackTrajectories();
         white.buildMovementTrajectories();
