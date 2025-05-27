@@ -1,16 +1,15 @@
 package traces;
 
-import chess.Cell;
-import chess.CellPosition;
-import chess.Direction;
-import chess.Figures.Figure;
-import chess.Figures.FiguresTypes;
-import chess.Team;
+import model.Cell;
+import model.CellPosition;
+import model.Direction;
+import model.Figures.Figure;
+import model.Figures.FiguresTypes;
+import model.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 

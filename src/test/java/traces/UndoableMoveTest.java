@@ -1,12 +1,12 @@
 package traces;
 
-import chess.Board;
-import chess.Cell;
-import chess.CellPosition;
-import chess.Figures.Pawn;
-import chess.Figures.Rook;
-import chess.Figures.UndoableMove;
-import chess.Team;
+import model.Board;
+import model.Cell;
+import model.CellPosition;
+import model.Figures.Pawn;
+import model.Figures.Rook;
+import model.Figures.UndoableMove;
+import model.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

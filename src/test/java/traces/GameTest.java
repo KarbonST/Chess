@@ -1,19 +1,11 @@
 package traces;
 
-import chess.Board;
-import chess.Team;
-import chess.Figures.King;
-import chess.Figures.Rook;
-import chess.Judge;
-import chess.events.*;
+import model.events.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import chess.CellPosition;
-import chess.Game;
-
-import java.awt.*;
-import java.util.List;
+import model.CellPosition;
+import model.Game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -95,7 +87,7 @@ class GameTest {
 
     static class TestFigureListener implements FigureActionListener {
         int activatedCount = 0, movedCount = 0;
-        chess.CellPosition lastActivated, lastFrom, lastTo;
+        model.CellPosition lastActivated, lastFrom, lastTo;
 
         @Override
         public void figureActivated(FigureActivatedEvent e) {
@@ -110,7 +102,7 @@ class GameTest {
             lastTo = e.getTo().getPosition();
         }
 
-        @Override public void figureDeactivated(chess.events.FigureClearSelectedEvent e) {}
+        @Override public void figureDeactivated(model.events.FigureClearSelectedEvent e) {}
 
         /** Обнуляет все счётчики и сохранённые позиции */
         public void reset() {

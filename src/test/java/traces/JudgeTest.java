@@ -1,7 +1,7 @@
 package traces;
 
-import chess.*;
-import chess.Figures.*;
+import model.*;
+import model.Figures.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

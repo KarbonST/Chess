@@ -1,9 +1,9 @@
 package traces;
 
-import chess.Board;
-import chess.Cell;
-import chess.CellPosition;
-import chess.Direction;
+import model.Board;
+import model.Cell;
+import model.CellPosition;
+import model.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

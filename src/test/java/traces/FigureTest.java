@@ -3,17 +3,16 @@ package traces;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import chess.Board;
-import chess.Cell;
-import chess.CellPosition;
-import chess.Direction;
-import chess.Figures.*;
-import chess.Team;
-import chess.Trajectories.Trajectory;
+import model.Board;
+import model.Cell;
+import model.CellPosition;
+import model.Direction;
+import model.Figures.*;
+import model.Team;
+import model.Trajectories.Trajectory;
 
 import java.awt.Color;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;

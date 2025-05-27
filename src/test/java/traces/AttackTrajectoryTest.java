@@ -1,13 +1,13 @@
 package traces;
 
-import chess.Board;
-import chess.Cell;
-import chess.CellPosition;
-import chess.Direction;
-import chess.Figures.Figure;
-import chess.Figures.FiguresTypes;
-import chess.Team;
-import chess.Trajectories.AttackTrajectories.AttackTrajectory;
+import model.Board;
+import model.Cell;
+import model.CellPosition;
+import model.Direction;
+import model.Figures.Figure;
+import model.Figures.FiguresTypes;
+import model.Team;
+import model.Trajectories.AttackTrajectories.AttackTrajectory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
