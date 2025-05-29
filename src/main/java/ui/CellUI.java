@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.*;
 import model.CellPosition;
+import ui.events.CellClickEvent;
 import ui.events.CellClickListener;
 
 import java.awt.*;
@@ -48,8 +49,7 @@ public class CellUI extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // TODO событие о том, что был совершен клик по ячейке
-
+                fireCellClicked(); // Рассылка события клика
             }
         });
     }
@@ -72,8 +72,33 @@ public class CellUI extends JPanel {
      * Рассылка события слушателям
      */
     public void fireCellClicked(){
+        CellClickEvent event = new CellClickEvent(this, getCellPosition());
         for (var l: this.clickListeners){
-            l.cellClicked(this.cellPosition);
+            l.cellClicked(event);
         }
+    }
+
+    /**
+     * Получить иконку фигуры
+     * @return иконка фигуры
+     */
+    public ImageIcon getFigureIcon(){
+        return this.figureIcon;
+    }
+
+    /**
+     * Задать иконку фигуры
+     * @param figureIcon иконка фигуры
+     */
+    public void setFigureIcon(ImageIcon figureIcon){
+        this.figureIcon = figureIcon;
+    }
+
+    /**
+     * Получить позицию ячейки
+     * @return позиция ячейки
+     */
+    public CellPosition getCellPosition(){
+        return this.cellPosition;
     }
 }
