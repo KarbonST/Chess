@@ -2,6 +2,8 @@ package ui.events;
 
 import model.CellPosition;
 
-public interface CellClickListener {
+import java.util.EventListener;
+
+public interface CellClickListener extends EventListener {
     void cellClicked(CellClickEvent cellClickEvent);
 }

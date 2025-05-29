@@ -22,6 +22,11 @@ public class CellUI extends JPanel {
     private final CellPosition cellPosition;
 
     /**
+     * Отступ в пикселях изображения от краев
+     */
+    private final static int PADDING = 8;
+
+    /**
      * Стандартный цвет ячейки
      */
     private final Color defaultColor;
@@ -91,7 +96,36 @@ public class CellUI extends JPanel {
      * @param figureIcon иконка фигуры
      */
     public void setFigureIcon(ImageIcon figureIcon){
-        this.figureIcon = figureIcon;
+        if (figureIcon == null){
+            this.figureIcon = null;
+        }
+        else{
+            // Вычисляем размер иконки
+            int width = getWidth() - PADDING;
+            int height = getHeight() - PADDING;
+
+            if (width <= 0 || height <= 0){
+                this.figureIcon = null;
+            }
+            else{
+                int size = Math.min(width, height);
+                Image scaled = figureIcon.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+                this.figureIcon = new ImageIcon(scaled);
+            }
+        }
+        repaint();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+
+        // Рисуем иконку
+        if (figureIcon != null){
+            int x = (getWidth() - figureIcon.getIconWidth()) / 2;
+            int y = (getHeight() - figureIcon.getIconHeight()) / 2;
+            figureIcon.paintIcon(this,g,x,y);
+        }
     }
 
     /**

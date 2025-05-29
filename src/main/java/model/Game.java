@@ -304,4 +304,12 @@ public class Game {
         }
     }
 
+    /**
+     * Получить доску
+     * @return доска
+     */
+    public Board getBoard(){
+        return this.board;
+    }
+
 }

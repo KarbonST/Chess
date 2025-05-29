@@ -10,6 +10,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
+        game.start();
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Chess");
@@ -28,12 +29,13 @@ public class Main {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             // Создаём нашу панель с клетками
-            BoardPanel boardPanel = new BoardPanel();
+            BoardPanel boardPanel = new BoardPanel(game.getBoard());
             frame.getContentPane().add(boardPanel);
 
             frame.pack();               // подгоняем размер под preferredSize клеток
             frame.setLocationRelativeTo(null); // центрируем окно на экране
             frame.setVisible(true);
+            boardPanel.paintFiguresOnBoard();
         });
     }
 }
