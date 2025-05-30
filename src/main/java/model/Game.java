@@ -101,7 +101,7 @@ public class Game {
         this.activeFigure = figure;
 
         // Оповещаем GUI о выборе фигуры
-        fireFigureActivated(figure);
+        fireFigureActivated(activeFigure);
     }
 
     /**

@@ -77,7 +77,6 @@ public class CellUI extends JPanel {
      * Рассылка события слушателям
      */
     public void fireCellClicked(){
-        this.setBackground(Color.GREEN);
         CellClickEvent event = new CellClickEvent(this, getCellPosition());
         for (var l: this.clickListeners){
             l.cellClicked(event);
@@ -116,6 +115,7 @@ public class CellUI extends JPanel {
         }
         repaint();
     }
+
 
     @Override
     protected void paintComponent(Graphics g){

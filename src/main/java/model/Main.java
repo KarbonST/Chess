@@ -1,6 +1,8 @@
 package model;
 
+import model.events.*;
 import ui.BoardPanel;
+import ui.events.BoardClickListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,7 +33,49 @@ public class Main {
             // Создаём нашу панель с клетками
             BoardPanel boardPanel = new BoardPanel(game.getBoard());
 
+            // Модель слушает GUI
+            boardPanel.addBoardClickListener(new BoardClickListener() {
+                @Override
+                public void cellClicked(CellPosition pos) {
+                    game.workWithFigure(pos);
+                }
+            });
 
+            // GUI слушает модель
+            game.addFigureActionListener(new FigureActionListener() {
+                @Override
+                public void figureActivated(FigureActivatedEvent e) {
+                    boardPanel.highlightCellWithActiveFigure(e.getFigure().getCell().getPosition());
+                    boardPanel.highlightCells(e.getFigure().getAllCellsPositionsFromTrajectories());
+                }
+                @Override
+                public void figureDeactivated(FigureClearSelectedEvent e) {
+                    boardPanel.clearHighlights();
+                }
+                @Override
+                public void figureMoved(FigureMovedEvent e) {
+                    boardPanel.moveFigure(
+                            e.getFrom().getPosition(),
+                            e.getTo().getPosition()
+                    );
+                }
+            });
+            game.addGameFinishActionListener(new GameStatusActionListener() {
+                @Override
+                public void gameFinishInDraw(GameStatusDrawEvent e) {
+                    JOptionPane.showMessageDialog(frame, "Ничья!");
+                }
+                @Override
+                public void gameFinishWithWinner(GameStatusWinnerEvent e) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Победили: " + e.getWinnerTeam().getColor().toString());
+                }
+                @Override
+                public void teamHasCheck(GameStatusCheckEvent e) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Шах " + e.getCheckTeam().getColor().toString());
+                }
+            });
 
 
             frame.getContentPane().add(boardPanel);

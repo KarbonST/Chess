@@ -4,6 +4,7 @@ import model.Board;
 import model.Cell;
 import model.CellPosition;
 import model.Figures.Figure;
+import ui.events.BoardClickListener;
 import ui.events.CellClickEvent;
 import ui.events.CellClickListener;
 
@@ -15,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Доска
  */
-public class BoardPanel extends JPanel {
+public class BoardPanel extends JPanel implements CellClickListener{
 
     /**
      * Список ячеек
@@ -23,9 +24,9 @@ public class BoardPanel extends JPanel {
     private final CellUI[][] cells = new CellUI[Board.getBoardSize()][Board.getBoardSize()];
 
     /**
-     * Список слушателей
+     * Список слушателей клика по доске
      */
-    private final List<CellClickListener> clickListeners = new CopyOnWriteArrayList<>();
+    private final List<BoardClickListener> boardClickListeners = new CopyOnWriteArrayList<>();
 
     /**
      * Доска
@@ -39,6 +40,10 @@ public class BoardPanel extends JPanel {
             for (int col = 0; col < Board.getBoardSize(); col++){
                 Color bg = (row+col) % 2 == 0 ? Color.WHITE : Color.GRAY;
                 CellUI cell = new CellUI(new CellPosition(row, col), bg);
+
+                // Подписываем доску на события клика по конкретной ячейке
+                cell.addCellClickListener(this);
+
                 this.cells[row][col] = cell;
                 add(cell);
             }
@@ -76,8 +81,6 @@ public class BoardPanel extends JPanel {
      * @param cellsPositions позиции подсвечиваемых ячеек
      */
     public void highlightCells(List<CellPosition> cellsPositions){
-        clearHighlights();
-
         for (CellPosition pos : cellsPositions) {
             int r = pos.getRow();
             int c = pos.getCol();
@@ -86,6 +89,20 @@ public class BoardPanel extends JPanel {
             }
         }
 
+        repaint();
+    }
+
+    /**
+     * Подсветить ячейку с активной фигурой
+     * @param cellPosition позиция ячейки
+     */
+    public void highlightCellWithActiveFigure(CellPosition cellPosition){
+        int r = cellPosition.getRow();
+        int c = cellPosition.getCol();
+
+        if (r >= 0 && r < Board.getBoardSize() && c >= 0 && c < Board.getBoardSize()){
+            cells[r][c].setBackground(Color.GREEN);
+        }
         repaint();
     }
 
@@ -121,15 +138,23 @@ public class BoardPanel extends JPanel {
     /**
      * Добавить слушателя
      */
-    public void addCellClickListener(CellClickListener l){
-        this.clickListeners.add(l);
+    public void addBoardClickListener(BoardClickListener l){
+        this.boardClickListeners.add(l);
     }
 
     /**
      * Удалить слушателя
      */
-    public void removeCellCLickListener(CellClickListener l){
-        this.clickListeners.remove(l);
+    public void removeBoardCLickListener(BoardClickListener l){
+        this.boardClickListeners.remove(l);
     }
 
+
+    @Override
+    public void cellClicked(CellClickEvent cellClickEvent) {
+        CellPosition pos = cellClickEvent.getCellPosition();
+        for (var l: boardClickListeners){
+            l.cellClicked(pos);
+        }
+    }
 }
