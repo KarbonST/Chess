@@ -4,9 +4,13 @@ import model.Board;
 import model.Cell;
 import model.CellPosition;
 import model.Figures.Figure;
+import ui.events.CellClickEvent;
+import ui.events.CellClickListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Доска
@@ -17,6 +21,11 @@ public class BoardPanel extends JPanel {
      * Список ячеек
      */
     private final CellUI[][] cells = new CellUI[Board.getBoardSize()][Board.getBoardSize()];
+
+    /**
+     * Список слушателей
+     */
+    private final List<CellClickListener> clickListeners = new CopyOnWriteArrayList<>();
 
     /**
      * Доска
@@ -61,4 +70,66 @@ public class BoardPanel extends JPanel {
             }
         }
     }
+
+    /**
+     * Подсветить клетки
+     * @param cellsPositions позиции подсвечиваемых ячеек
+     */
+    public void highlightCells(List<CellPosition> cellsPositions){
+        clearHighlights();
+
+        for (CellPosition pos : cellsPositions) {
+            int r = pos.getRow();
+            int c = pos.getCol();
+            if (r >= 0 && r < Board.getBoardSize() && c >= 0 && c < Board.getBoardSize()) {
+                cells[r][c].setBackground(Color.YELLOW);
+            }
+        }
+
+        repaint();
+    }
+
+    /**
+     * Убрать подсветку всех клеток
+     */
+    public void clearHighlights(){
+        for (int row = 0; row < Board.getBoardSize(); row++) {
+            for (int col = 0; col < Board.getBoardSize(); col++) {
+                cells[row][col].setBackground(cells[row][col].getDefaultColor());
+            }
+        }
+        repaint();
+    }
+
+    /**
+     * Переместить иконку фигуры на доске
+     * @param from откуда происходит перенос
+     * @param to куда происходит перенос
+     */
+    public void moveFigure(CellPosition from, CellPosition to){
+
+        CellUI fromCellUI = cells[from.getRow()][from.getCol()];
+        CellUI toCellUI   = cells[to.getRow()][to.getCol()];
+
+        ImageIcon icon = fromCellUI.getFigureIcon();
+
+        fromCellUI.setFigureIcon(null);
+
+        toCellUI.setFigureIcon(icon);
+    }
+
+    /**
+     * Добавить слушателя
+     */
+    public void addCellClickListener(CellClickListener l){
+        this.clickListeners.add(l);
+    }
+
+    /**
+     * Удалить слушателя
+     */
+    public void removeCellCLickListener(CellClickListener l){
+        this.clickListeners.remove(l);
+    }
+
 }

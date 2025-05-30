@@ -30,6 +30,10 @@ public class Main {
 
             // Создаём нашу панель с клетками
             BoardPanel boardPanel = new BoardPanel(game.getBoard());
+
+
+
+
             frame.getContentPane().add(boardPanel);
 
             frame.pack();               // подгоняем размер под preferredSize клеток

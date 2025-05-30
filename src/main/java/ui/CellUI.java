@@ -77,6 +77,7 @@ public class CellUI extends JPanel {
      * Рассылка события слушателям
      */
     public void fireCellClicked(){
+        this.setBackground(Color.GREEN);
         CellClickEvent event = new CellClickEvent(this, getCellPosition());
         for (var l: this.clickListeners){
             l.cellClicked(event);
@@ -134,5 +135,12 @@ public class CellUI extends JPanel {
      */
     public CellPosition getCellPosition(){
         return this.cellPosition;
+    }
+
+    /**
+     * Получить стандартный цвет ячейки
+     */
+    public Color getDefaultColor(){
+        return this.defaultColor;
     }
 }

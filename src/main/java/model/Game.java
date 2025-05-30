@@ -312,4 +312,17 @@ public class Game {
         return this.board;
     }
 
+    /**
+     * Работа с фигурой
+     * @param cellPosition позиция ячейки
+     */
+    public void workWithFigure(CellPosition cellPosition){
+        if (this.activeFigure == null){
+            onFigureSelected(cellPosition);
+        }
+        else{
+            onFigureMoved(cellPosition);
+        }
+    }
+
 }

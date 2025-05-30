@@ -194,6 +194,32 @@ public abstract class Figure {
     }
 
     /**
+     * Получить список позиций ячеек их всех траекторий
+     * @return список позиций доступных ячеек для движения
+     */
+    public List<CellPosition> getAllCellsPositionsFromTrajectories(){
+        List<CellPosition> allCellsPositions = new ArrayList<>();
+
+        // Для всех траекторий движения
+        for (Trajectory trajectory: getMovementTrajectories()){
+            // Для всех ячеек траектории
+            for (Cell cell: trajectory.getCells()){
+                allCellsPositions.add(cell.getPosition());
+            }
+        }
+
+        // Для всех траекторий атаки
+        for (Trajectory trajectory: getAttackTrajectories()){
+            // Для всех ячеек траектории
+            for (Cell cell: trajectory.getCells()){
+                allCellsPositions.add(cell.getPosition());
+            }
+        }
+
+        return allCellsPositions;
+    }
+
+    /**
      * Получить радиус траектории движения
      * @return радиус траектории движения
      */
