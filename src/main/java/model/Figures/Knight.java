@@ -13,6 +13,7 @@ public class Knight extends Figure{
 
     public Knight(Team team) {
         super(team);
+        this.lives = 5;
         this.movementRadius = 1;
         this.attackRadius = 1;
         this.shiftPerStep = new int[][] { {1,2}, {2,1} };

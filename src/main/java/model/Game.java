@@ -170,6 +170,9 @@ public class Game {
         }
     }
 
+    /**
+     * Деактивация фигуры
+     */
     private void clearSelection(){
         if (this.activeFigure != null){
             fireFigureDeactivated(this.activeFigure);

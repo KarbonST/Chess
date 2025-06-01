@@ -13,6 +13,7 @@ public class King extends Figure{
 
     public King(Team team) {
         super(team);
+        this.lives = Integer.MAX_VALUE;
         this.movementRadius = 1;
         this.attackRadius = 1;
         this.shiftPerStep = new int[][] { {1,1} };

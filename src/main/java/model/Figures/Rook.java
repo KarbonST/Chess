@@ -14,6 +14,7 @@ public class Rook extends Figure{
 
     public Rook(Team team) {
         super(team);
+        this.lives = 5;
         this.movementRadius = Board.getBoardSize();
         this.attackRadius = Board.getBoardSize();
         this.shiftPerStep = new int[][] { {1,1} };

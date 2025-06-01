@@ -19,6 +19,11 @@ public abstract class Figure {
     protected Team team;
 
     /**
+     * Количество жизненей
+     */
+    protected int lives;
+
+    /**
      * Может ли фигура "перепрыгивать" другие фигуры
      */
     protected boolean canJumpOver = false;
@@ -155,6 +160,22 @@ public abstract class Figure {
         if (currentTeam.getFigureList().contains(this)){
             currentTeam.deleteFigure(this);
         }
+    }
+
+    /**
+     * Получить количество жизней
+     * @return количество жизней
+     */
+    public int getLives(){
+        return this.lives;
+    }
+
+    /**
+     * Задать количество жизней
+     * @param lives количество жизней
+     */
+    public void setLives (int lives){
+        this.lives = lives;
     }
 
     /**

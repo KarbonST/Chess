@@ -17,6 +17,7 @@ public class Pawn extends Figure{
 
     public Pawn(Team team) {
         super(team);
+        this.lives = 6;
         this.movementRadius = 2;
         this.attackRadius = 1;
         this.shiftPerStep = new int[][] { {1,1} };
@@ -52,7 +53,7 @@ public class Pawn extends Figure{
         if (hasMoved()){
             setMovementRadius(1);
             for(Trajectory trajectory: getMovementTrajectories()){
-                trajectory.setStepsCount(1);
+                trajectory.setStepsCount(getMovementRadius());
             }
         }
 

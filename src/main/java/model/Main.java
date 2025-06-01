@@ -2,6 +2,7 @@ package model;
 
 import model.events.*;
 import ui.BoardPanel;
+import ui.InfoPanel;
 import ui.events.BoardClickListener;
 
 import javax.imageio.ImageIO;
@@ -17,21 +18,25 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Chess");
 
-            // Загрузка иконки из ресурсов
+            // Загрузка иконки игры
             try {
                 Image icon = ImageIO.read(
                         Main.class.getResourceAsStream("/chess.png")
                 );
                 frame.setIconImage(icon);
             } catch (IOException | NullPointerException e) {
-                // Если не удалось загрузить — можно просто проигнорировать или залогировать
+                // При неудачном прочтении
                 e.printStackTrace();
             }
 
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            // Создаём нашу панель с клетками
+            // Создание шахматной доски
             BoardPanel boardPanel = new BoardPanel(game.getBoard());
+
+            // Создание информационной панели
+            InfoPanel infoPanel = new InfoPanel();
+            boardPanel.setInfoPanel(infoPanel);
 
             // Модель слушает GUI
             boardPanel.addBoardClickListener(new BoardClickListener() {
@@ -78,10 +83,11 @@ public class Main {
             });
 
 
-            frame.getContentPane().add(boardPanel);
+            frame.add(boardPanel, BorderLayout.CENTER);
+            frame.add(infoPanel, BorderLayout.EAST);
 
-            frame.pack();               // подгоняем размер под preferredSize клеток
-            frame.setLocationRelativeTo(null); // центрируем окно на экране
+            frame.pack();
+            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
             boardPanel.paintFiguresOnBoard();
         });

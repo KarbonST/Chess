@@ -30,4 +30,16 @@ public enum FiguresTypes {
      * Ладья.
      */
     ROOK;
+
+    @Override
+    public String toString() {
+        return switch (this) {
+            case KING -> "Король";
+            case QUEEN -> "Ферзь";
+            case PAWN -> "Пешка";
+            case KNIGHT -> "Конь";
+            case BISHOP -> "Слон";
+            case ROOK -> "Ладья";
+        };
+    }
 }

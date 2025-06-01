@@ -33,6 +33,11 @@ public class BoardPanel extends JPanel implements CellClickListener{
      */
     private final Board board;
 
+    /**
+     * Информационная панель
+     */
+    private InfoPanel infoPanel;
+
     public BoardPanel(Board board){
         this.board = board;
         setLayout(new GridLayout(Board.getBoardSize(), Board.getBoardSize()));
@@ -48,6 +53,21 @@ public class BoardPanel extends JPanel implements CellClickListener{
                 add(cell);
             }
         }
+    }
+
+    /**
+     * Задать информационную панель
+     * @param infoPanel информационная панель
+     */
+    public void setInfoPanel(InfoPanel infoPanel){
+        this.infoPanel = infoPanel;
+    }
+
+    /**
+     * Получить информационную панель
+     */
+    public InfoPanel getInfoPanel(){
+        return this.infoPanel;
     }
 
     /**
@@ -103,6 +123,14 @@ public class BoardPanel extends JPanel implements CellClickListener{
         if (r >= 0 && r < Board.getBoardSize() && c >= 0 && c < Board.getBoardSize()){
             cells[r][c].setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
         }
+
+        // Показать информация о фигуре
+        if (infoPanel != null){
+            Figure figure = board.getCellByPosition(cellPosition).getFigure();
+            ImageIcon imageIcon = cells[r][c].getFigureIcon();
+            infoPanel.showFigureInfo(figure, imageIcon);
+        }
+
         repaint();
     }
 
@@ -117,6 +145,12 @@ public class BoardPanel extends JPanel implements CellClickListener{
                 );
             }
         }
+
+        // Убрать информацию о фигуре
+        if (infoPanel != null){
+            infoPanel.clear();
+        }
+
         repaint();
     }
 

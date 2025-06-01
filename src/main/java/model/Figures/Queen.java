@@ -14,6 +14,7 @@ public class Queen extends Figure{
 
     public Queen(Team team) {
         super(team);
+        this.lives = 8;
         this.movementRadius = Board.getBoardSize();
         this.attackRadius = Board.getBoardSize();
         this.shiftPerStep = new int[][] { {1,1} };
