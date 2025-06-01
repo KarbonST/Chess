@@ -182,7 +182,6 @@ public class Game {
         // Был объявлен шах
         if (gameStatus == GameStatus.CHECK){
             fireCheck(this.inactiveTeam);
-            return;
         }
 
         // Был объявлен пат

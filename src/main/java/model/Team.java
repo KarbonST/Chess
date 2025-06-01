@@ -51,6 +51,7 @@ public class Team {
 
     /**
      * Получить список фигур
+     * @return список фигур
      */
     public List<Figure> getFigureList(){
         return this.figureList;
@@ -58,10 +59,27 @@ public class Team {
 
     /**
      * Получить цвет команды
+     * @return цвет
      */
     public Color getColor() {
         return color;
     }
+
+    /**
+     * Получить цвет команды в виде слова (White, Black)
+     * @return цвет команды в виде строки
+     */
+    public String getColorAsString(){
+        if (this.color == Color.WHITE){
+            return "White";
+        }
+        else if(this.color == Color.BLACK){
+            return "Black";
+        }
+
+        return "Undefined";
+    }
+
 
     /**
      * Получить фигуру по ячейке

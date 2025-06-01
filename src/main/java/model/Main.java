@@ -68,12 +68,12 @@ public class Main {
                 @Override
                 public void gameFinishWithWinner(GameStatusWinnerEvent e) {
                     JOptionPane.showMessageDialog(frame,
-                            "Победили: " + e.getWinnerTeam().getColor().toString());
+                            "Победила команда: " + e.getWinnerTeam().getColorAsString());
                 }
                 @Override
                 public void teamHasCheck(GameStatusCheckEvent e) {
                     JOptionPane.showMessageDialog(frame,
-                            "Шах " + e.getCheckTeam().getColor().toString());
+                            "Шах команде: " + e.getCheckTeam().getColorAsString());
                 }
             });
 

@@ -85,7 +85,7 @@ public class BoardPanel extends JPanel implements CellClickListener{
             int r = pos.getRow();
             int c = pos.getCol();
             if (r >= 0 && r < Board.getBoardSize() && c >= 0 && c < Board.getBoardSize()) {
-                cells[r][c].setBackground(Color.YELLOW);
+                cells[r][c].setBorder(BorderFactory.createLineBorder(Color.YELLOW, 5));
             }
         }
 
@@ -101,7 +101,7 @@ public class BoardPanel extends JPanel implements CellClickListener{
         int c = cellPosition.getCol();
 
         if (r >= 0 && r < Board.getBoardSize() && c >= 0 && c < Board.getBoardSize()){
-            cells[r][c].setBackground(Color.GREEN);
+            cells[r][c].setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
         }
         repaint();
     }
@@ -112,7 +112,9 @@ public class BoardPanel extends JPanel implements CellClickListener{
     public void clearHighlights(){
         for (int row = 0; row < Board.getBoardSize(); row++) {
             for (int col = 0; col < Board.getBoardSize(); col++) {
-                cells[row][col].setBackground(cells[row][col].getDefaultColor());
+                cells[row][col].setBorder(
+                        BorderFactory.createLineBorder(cells[row][col].getDefaultColor().darker(), 1)
+                );
             }
         }
         repaint();
