@@ -114,6 +114,15 @@ public class Game {
             return;
         }
 
+        // Кликнули по фигуре своей команды
+        if (board.getCellByPosition(targetCellPos).getFigure() != null) {
+            if (board.getCellByPosition(targetCellPos).getFigure().getTeam() == this.activeTeam) {
+                clearSelection();
+                onFigureSelected(targetCellPos);
+                return;
+            }
+        }
+
         // Кликнули по ячейке, которая не входит в траекторию фигуры
         Cell targetCell = board.getCellByPosition(targetCellPos);
         if (!this.activeFigure.getAllCellsFromTrajectories().contains(targetCell)){
