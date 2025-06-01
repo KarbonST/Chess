@@ -155,6 +155,14 @@ public class BoardPanel extends JPanel implements CellClickListener{
     }
 
     /**
+     * Удалить с ячейки фигуру
+     */
+    public void deleteFigure(CellPosition deletePos){
+        CellUI deleteCell = cells[deletePos.getRow()][deletePos.getCol()];
+        deleteCell.setFigureIcon(null);
+    }
+
+    /**
      * Переместить иконку фигуры на доске
      * @param from откуда происходит перенос
      * @param to куда происходит перенос

@@ -64,6 +64,11 @@ public class Main {
                             e.getTo().getPosition()
                     );
                 }
+                @Override
+                public void figureDeadFromItself(FigureDeadFromItselfEvent e) {
+                    boardPanel.deleteFigure(e.getFigurePosition());
+                }
+
             });
             game.addGameFinishActionListener(new GameStatusActionListener() {
                 @Override

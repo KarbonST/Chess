@@ -162,6 +162,8 @@ public class Team {
         if (figure != null && !figure.isFrozen()) {
             figure.moveTo(targetCell);
         }
+
+
     }
 
     /**

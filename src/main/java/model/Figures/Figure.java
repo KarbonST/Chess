@@ -171,12 +171,23 @@ public abstract class Figure {
     }
 
     /**
-     * Задать количество жизней
-     * @param lives количество жизней
+     * Нанесение урона себе
+     * @param damage кол-во урона
      */
-    public void setLives (int lives){
-        this.lives = lives;
+    public void takeDamage(int damage){
+        if (getLives() != Integer.MAX_VALUE){
+            this.lives = lives - damage;
+        }
     }
+
+    /**
+     * Жива ли фигура
+     * @return жива ли фигура
+     */
+    public boolean isAlive(){
+        return getLives() > 0;
+    }
+
 
     /**
      * Получить траектории движения фигуры
@@ -340,7 +351,17 @@ public abstract class Figure {
             }
         }
 
+        takeDamage(1);
+
         return undoableMove;
+    }
+
+    /**
+     * Смерть
+     */
+    public void die(){
+        unsetCell();
+        unsetTeam();
     }
 
     public abstract Figure cloneFigure();

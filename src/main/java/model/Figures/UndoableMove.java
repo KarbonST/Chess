@@ -33,8 +33,7 @@ public class UndoableMove {
         // В целевой ячейке была вражеская фигура
         if (capturedFigure != null){
             // Удаляем фигуру
-            capturedFigure.unsetTeam();
-            cellTo.unsetFigure();
+            capturedFigure.die();
         }
 
         // Переносим фигуру

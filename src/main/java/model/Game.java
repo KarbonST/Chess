@@ -137,6 +137,14 @@ public class Game {
         // Оповещаем GUI о перемещении фигуры
         fireFigureMoved(this.activeFigure, fromCell, targetCell);
 
+        // Если фигура истратила свои жизни при перемещении
+        if (!this.activeFigure.isAlive()){
+            // Убиваем фигуру и оповещаем GUI о её смерти
+            CellPosition pos = this.activeFigure.getCell().getPosition();
+            this.activeFigure.die();
+            fireFigureDeadFromItself(pos);
+        }
+
         // Передать ход другой команде
         clearSelection();
         changeTeam();
@@ -280,6 +288,17 @@ public class Game {
         FigureMovedEvent event = new FigureMovedEvent(this, figure, from, to);
         for (var l: this.figureListeners){
             l.figureMoved(event);
+        }
+    }
+
+    /**
+     * Рассылка событий смерти фигуры
+     * @param figurePosition фигура
+     */
+    private void fireFigureDeadFromItself(CellPosition figurePosition){
+        FigureDeadFromItselfEvent event = new FigureDeadFromItselfEvent(this, figurePosition);
+        for (var l: this.figureListeners){
+            l.figureDeadFromItself(event);
         }
     }
 

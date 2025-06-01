@@ -21,4 +21,9 @@ public interface FigureActionListener extends EventListener {
      */
     void figureMoved(FigureMovedEvent figureMovedEvent);
 
+    /**
+     * Фигура исчерпала свои жизни
+     */
+    void figureDeadFromItself(FigureDeadFromItselfEvent figureDeadFromItselfEvent);
+
 }
