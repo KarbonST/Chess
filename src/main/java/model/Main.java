@@ -106,6 +106,12 @@ public class Main {
                             "Шах команде: " + e.getCheckTeam().getColorAsString());
                 }
             });
+            game.addFigureUpgradedListener(new FigureUpgradedListener() {
+                @Override
+                public void upgradedFigure() {
+                    boardPanel.upgradeFigure();
+                }
+            });
 
 
             frame.getContentPane().add(container);

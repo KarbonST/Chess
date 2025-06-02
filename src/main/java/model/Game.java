@@ -54,10 +54,16 @@ public class Game {
      */
     private final List<GameStatusActionListener> gameStatusListeners;
 
+    /**
+     * Список слушателей апргрейда фигуры
+     */
+    private final List<FigureUpgradedListener> figureUpgradedListeners;
+
     public Game(){
         this.teams = new ArrayList<>();
         this.figureListeners = new CopyOnWriteArrayList<>();
         this.gameStatusListeners = new CopyOnWriteArrayList<>();
+        this.figureUpgradedListeners = new CopyOnWriteArrayList<>();
     }
 
     /**
@@ -259,6 +265,20 @@ public class Game {
     }
 
     /**
+     * Добавление слушателей апргрейда фигур
+     */
+    public void addFigureUpgradedListener(FigureUpgradedListener l){
+        figureUpgradedListeners.add(l);
+    }
+
+    /**
+     * Удаление слушателей апргрейда фигур
+     */
+    public void removeFigureUpgradedListener(FigureUpgradedListener l){
+        figureUpgradedListeners.remove(l);
+    }
+
+    /**
      * Рассылка событий активации фигуры
      * @param figure фигура
      */
@@ -337,6 +357,15 @@ public class Game {
     }
 
     /**
+     * Рассылка событий апргейда фигур
+     */
+    private void fireUpgrade(){
+        for (var l: this.figureUpgradedListeners){
+            l.upgradedFigure();
+        }
+    }
+
+    /**
      * Получить доску
      * @return доска
      */
@@ -377,6 +406,10 @@ public class Game {
         wizard.setLives(activeFigureHp - 2);
         wizard.setCell(activeFigureCell);
         wizard.setTeam(this.activeTeam);
+        this.activeTeam.setUpgraded(true);
+
+        // Рассылаем события об апгрейде фигуры
+        fireUpgrade();
 
         // Передаем ход другой команде
         clearSelection();

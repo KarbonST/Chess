@@ -23,6 +23,11 @@ public class Team {
      */
     private final Color color;
 
+    /**
+     * Был ли в команде произведен апргрейд
+     */
+    private boolean isUpgraded = false;
+
     public Team(Color color){
         this.figureList = new ArrayList<>();
         this.color = color;
@@ -194,6 +199,22 @@ public class Team {
 
     public Team cloneTeam(){
         return new Team(this.color);
+    }
+
+    /**
+     * Получить информацию об апргрейде фигуры
+     * @return был ли апгрейд
+     */
+    public boolean isUpgraded(){
+        return this.isUpgraded;
+    }
+
+    /**
+     * Задать апргрейд фигуры
+     * @param isUpgraded был ли апргрейд
+     */
+    public void setUpgraded(boolean isUpgraded){
+        this.isUpgraded = isUpgraded;
     }
 
 }

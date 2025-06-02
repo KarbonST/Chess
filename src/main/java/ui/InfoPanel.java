@@ -32,11 +32,6 @@ public class InfoPanel extends JPanel {
     private final JButton upgradeButton;
 
     /**
-     * Нажималась ли кнопка Upgrade
-     */
-    private boolean isUpgraded;
-
-    /**
      * Список слушателей нажатия на кнопку Upgrade
      */
     private final List<InfoPanelButtonUpgradeClickListener> upgradeClickListeners = new ArrayList<>();
@@ -45,7 +40,6 @@ public class InfoPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setBackground(new Color(0xF0F0F0));
-        this.isUpgraded = false;
 
         // Имя фигуры
         nameLabel = new JLabel("Фигура: —", SwingConstants.CENTER);
@@ -71,7 +65,6 @@ public class InfoPanel extends JPanel {
         bottomPanel.add(upgradeButton, BorderLayout.SOUTH);
 
         upgradeButton.addActionListener(e -> {
-            this.isUpgraded = true;
             for (var l: upgradeClickListeners){
                 l.buttonUpgradeClicked();
             }
@@ -109,7 +102,7 @@ public class InfoPanel extends JPanel {
         }
 
         // Активизировать кнопку Upgrade для пешки если ещё не нажимали кнопку
-        if (figure.getFigureType() == FiguresTypes.PAWN && !this.isUpgraded){
+        if (figure.getFigureType() == FiguresTypes.PAWN && !figure.getTeam().isUpgraded()){
             upgradeButton.setEnabled(true);
         }
         else{

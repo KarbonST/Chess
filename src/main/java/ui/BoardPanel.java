@@ -221,6 +221,30 @@ public class BoardPanel extends JPanel implements CellClickListener, InfoPanelBu
         this.upgradeClickListeners.remove(l);
     }
 
+    /**
+     * Произошел апгрейд фигуры в модели
+     */
+    public void upgradeFigure(){
+        // Меняем иконку на мага
+        CellUI cellUI = cells[this.activeFigurePosition.getRow()][this.activeFigurePosition.getCol()];
+        cellUI.setFigureIcon(null);
+
+        Cell modelCell = board.getCellByPosition(this.activeFigurePosition);
+
+        Figure figure = modelCell.getFigure();
+        if (figure != null){
+            String color = figure.getTeam().getColor() == Color.WHITE ? "white" : "black";
+            String type  = figure.getFigureType().name().toLowerCase();
+            String path  = "/figures/" + type + "_" + color + ".png";
+
+            ImageIcon icon = new ImageIcon(getClass().getResource(path));
+            cellUI.setFigureIcon(icon);
+        }
+        else{
+            cellUI.setFigureIcon(null);
+        }
+    }
+
 
     @Override
     public void cellClicked(CellClickEvent cellClickEvent) {
