@@ -29,7 +29,12 @@ public enum FiguresTypes {
     /**
      * Ладья.
      */
-    ROOK;
+    ROOK,
+
+    /**
+     * Волшебник
+     */
+    WIZARD;
 
     @Override
     public String toString() {
@@ -40,6 +45,7 @@ public enum FiguresTypes {
             case KNIGHT -> "Конь";
             case BISHOP -> "Слон";
             case ROOK -> "Ладья";
+            case WIZARD -> "Волшебник";
         };
     }
 }

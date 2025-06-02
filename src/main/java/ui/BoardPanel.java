@@ -233,9 +233,8 @@ public class BoardPanel extends JPanel implements CellClickListener, InfoPanelBu
 
     @Override
     public void buttonUpgradeClicked() {
-        ButtonUpgradeClickEvent e = new ButtonUpgradeClickEvent(this, this.activeFigurePosition);
         for (var l: upgradeClickListeners){
-            l.buttonUpgradeClicked(e.getFigurePosition());
+            l.buttonUpgradeClicked();
         }
     }
 }

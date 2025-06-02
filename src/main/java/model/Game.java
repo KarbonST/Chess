@@ -1,6 +1,8 @@
 package model;
 
 import model.Figures.Figure;
+import model.Figures.FiguresFactory;
+import model.Figures.FiguresTypes;
 import model.events.*;
 
 import java.util.ArrayList;
@@ -357,10 +359,28 @@ public class Game {
 
     /**
      * Upgrade фигуры
-     * @param pos позиция фигуры
      */
-    public void upgradeFigure(CellPosition pos){
+    public void upgradeFigure(){
 
+        // Активная фигура - не пешка
+        if (this.activeFigure.getFigureType() != FiguresTypes.PAWN){
+            return;
+        }
+
+        // Запоминаем ячейку активной фигуры и её количество жизней
+        Cell activeFigureCell = activeFigure.getCell();
+        int activeFigureHp = activeFigure.getLives();
+
+        // "Убиваем" активную фигуру (пешку) и создаем новую (волшебника)
+        this.activeFigure.die();
+        Figure wizard = FiguresFactory.createFigure(FiguresTypes.WIZARD, this.activeTeam);
+        wizard.setLives(activeFigureHp - 2);
+        wizard.setCell(activeFigureCell);
+        wizard.setTeam(this.activeTeam);
+
+        // Передаем ход другой команде
+        clearSelection();
+        changeTeam();
     }
 
 }

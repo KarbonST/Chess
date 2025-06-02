@@ -22,6 +22,7 @@ public class FiguresFactory {
             case QUEEN -> new Queen(team);
             case KING -> new King(team);
             case PAWN -> new Pawn(team);
+            case WIZARD -> new Wizard(team);
         };
     }
 }

@@ -188,6 +188,14 @@ public abstract class Figure {
         return getLives() > 0;
     }
 
+    /**
+     * Задать количество жизней фигуре
+     * @param hp - количество жизней
+     */
+    public void setLives(int hp){
+        this.lives = hp;
+    }
+
 
     /**
      * Получить траектории движения фигуры

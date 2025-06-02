@@ -61,8 +61,8 @@ public class Main {
 
             boardPanel.addUpgradeButtonClickListener(new BoardPanelButtonUpgradeClickListener() {
                 @Override
-                public void buttonUpgradeClicked(CellPosition pos) {
-                    game.upgradeFigure(pos);
+                public void buttonUpgradeClicked() {
+                    game.upgradeFigure();
                 }
             });
 
