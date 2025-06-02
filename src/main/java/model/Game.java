@@ -355,4 +355,12 @@ public class Game {
         }
     }
 
+    /**
+     * Upgrade фигуры
+     * @param pos позиция фигуры
+     */
+    public void upgradeFigure(CellPosition pos){
+
+    }
+
 }

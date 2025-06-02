@@ -2,9 +2,12 @@ package ui;
 
 import model.Figures.Figure;
 import model.Figures.FiguresTypes;
+import ui.events.InfoPanelButtonUpgradeClickListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InfoPanel extends JPanel {
 
@@ -23,10 +26,26 @@ public class InfoPanel extends JPanel {
      */
     private final JLabel livesLabel;
 
+    /**
+     * Кнопка Upgrade
+     */
+    private final JButton upgradeButton;
+
+    /**
+     * Нажималась ли кнопка Upgrade
+     */
+    private boolean isUpgraded;
+
+    /**
+     * Список слушателей нажатия на кнопку Upgrade
+     */
+    private final List<InfoPanelButtonUpgradeClickListener> upgradeClickListeners = new ArrayList<>();
+
     public InfoPanel() {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setBackground(new Color(0xF0F0F0));
+        this.isUpgraded = false;
 
         // Имя фигуры
         nameLabel = new JLabel("Фигура: —", SwingConstants.CENTER);
@@ -38,10 +57,27 @@ public class InfoPanel extends JPanel {
         iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(iconLabel, BorderLayout.CENTER);
 
+        // Нижняя часть для отображения жизней и кнопки
+        JPanel bottomPanel = new JPanel(new BorderLayout(5,5));
+        bottomPanel.setOpaque(false);
+
         // Жизни фигуры
         livesLabel = new JLabel("Жизней: —", SwingConstants.CENTER);
         livesLabel.setFont(livesLabel.getFont().deriveFont(14f));
-        add(livesLabel, BorderLayout.SOUTH);
+        bottomPanel.add(livesLabel, BorderLayout.NORTH);
+
+        // Кнопка Upgrade
+        upgradeButton = new JButton("Upgrade");
+        bottomPanel.add(upgradeButton, BorderLayout.SOUTH);
+
+        upgradeButton.addActionListener(e -> {
+            this.isUpgraded = true;
+            for (var l: upgradeClickListeners){
+                l.buttonUpgradeClicked();
+            }
+        });
+
+        add(bottomPanel, BorderLayout.SOUTH);
 
         // Изначально ничего не выбрано
         clear();
@@ -71,8 +107,15 @@ public class InfoPanel extends JPanel {
         else{
             livesLabel.setText("Жизней: " + figure.getLives());
         }
-    }
 
+        // Активизировать кнопку Upgrade для пешки если ещё не нажимали кнопку
+        if (figure.getFigureType() == FiguresTypes.PAWN && !this.isUpgraded){
+            upgradeButton.setEnabled(true);
+        }
+        else{
+            upgradeButton.setEnabled(false);
+        }
+    }
 
     /**
      * Очистить все поля
@@ -81,5 +124,21 @@ public class InfoPanel extends JPanel {
         nameLabel.setText("Фигура: -");
         iconLabel.setIcon(null);
         livesLabel.setText("Жизней: -");
+        upgradeButton.setEnabled(false);
     }
+
+    /**
+     * Добавление слушателя клика по кнопке Upgrade
+     */
+    public void addUpgradeClickListener(InfoPanelButtonUpgradeClickListener l){
+        upgradeClickListeners.add(l);
+    }
+
+    /**
+     * Удаление слушателя клика по кнопке Upgrade
+     */
+    public void removeUpgradeClickListener(InfoPanelButtonUpgradeClickListener l){
+        upgradeClickListeners.remove(l);
+    }
+
 }

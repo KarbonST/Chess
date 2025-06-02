@@ -4,6 +4,7 @@ import model.events.*;
 import ui.BoardPanel;
 import ui.InfoPanel;
 import ui.events.BoardClickListener;
+import ui.events.BoardPanelButtonUpgradeClickListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class Main {
             InfoPanel infoPanel = new InfoPanel();
             boardPanel.setInfoPanel(infoPanel);
 
-            // Контейнер, в котором будут хранится доска и информационная панель
+            // Контейнер, в котором будут храниться доска и информационная панель
             JPanel container = new JPanel(new BorderLayout());
 
             container.add(boardPanel, BorderLayout.CENTER);
@@ -55,6 +56,13 @@ public class Main {
                 @Override
                 public void cellClicked(CellPosition pos) {
                     game.workWithFigure(pos);
+                }
+            });
+
+            boardPanel.addUpgradeButtonClickListener(new BoardPanelButtonUpgradeClickListener() {
+                @Override
+                public void buttonUpgradeClicked(CellPosition pos) {
+                    game.upgradeFigure(pos);
                 }
             });
 
@@ -99,7 +107,7 @@ public class Main {
                 }
             });
 
-            
+
             frame.getContentPane().add(container);
             frame.pack();
             frame.setLocationRelativeTo(null);

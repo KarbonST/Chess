@@ -4,9 +4,7 @@ import model.Board;
 import model.Cell;
 import model.CellPosition;
 import model.Figures.Figure;
-import ui.events.BoardClickListener;
-import ui.events.CellClickEvent;
-import ui.events.CellClickListener;
+import ui.events.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Доска
  */
-public class BoardPanel extends JPanel implements CellClickListener{
+public class BoardPanel extends JPanel implements CellClickListener, InfoPanelButtonUpgradeClickListener {
 
     /**
      * Список ячеек
@@ -29,9 +27,19 @@ public class BoardPanel extends JPanel implements CellClickListener{
     private final List<BoardClickListener> boardClickListeners = new CopyOnWriteArrayList<>();
 
     /**
+     * Список слушателей клика по кнопке Upgrade
+     */
+    private final List<BoardPanelButtonUpgradeClickListener> upgradeClickListeners = new CopyOnWriteArrayList<>();
+
+    /**
      * Доска
      */
     private final Board board;
+
+    /**
+     * Позиция активной фигуры
+     */
+    private CellPosition activeFigurePosition;
 
     /**
      * Информационная панель
@@ -61,6 +69,11 @@ public class BoardPanel extends JPanel implements CellClickListener{
      */
     public void setInfoPanel(InfoPanel infoPanel){
         this.infoPanel = infoPanel;
+
+        // Подписываемся на события клика по кнопке Upgrade
+        if (infoPanel != null){
+            infoPanel.addUpgradeClickListener(this);
+        }
     }
 
     /**
@@ -122,6 +135,7 @@ public class BoardPanel extends JPanel implements CellClickListener{
 
         if (r >= 0 && r < Board.getBoardSize() && c >= 0 && c < Board.getBoardSize()){
             cells[r][c].setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
+            this.activeFigurePosition = new CellPosition(r,c);
         }
 
         // Показать информация о фигуре
@@ -180,17 +194,31 @@ public class BoardPanel extends JPanel implements CellClickListener{
     }
 
     /**
-     * Добавить слушателя
+     * Добавить слушателя клика по доске
      */
     public void addBoardClickListener(BoardClickListener l){
         this.boardClickListeners.add(l);
     }
 
     /**
-     * Удалить слушателя
+     * Удалить слушателя клика по доске
      */
     public void removeBoardCLickListener(BoardClickListener l){
         this.boardClickListeners.remove(l);
+    }
+
+    /**
+     * Добавить слушателя клика по кнопке Upgrade
+     */
+    public void addUpgradeButtonClickListener(BoardPanelButtonUpgradeClickListener l){
+        this.upgradeClickListeners.add(l);
+    }
+
+    /**
+     * Удалить слушателя клика по кнопке Upgrade
+     */
+    public void removeUpgradeButtonClickListener(BoardPanelButtonUpgradeClickListener l){
+        this.upgradeClickListeners.remove(l);
     }
 
 
@@ -199,6 +227,15 @@ public class BoardPanel extends JPanel implements CellClickListener{
         CellPosition pos = cellClickEvent.getCellPosition();
         for (var l: boardClickListeners){
             l.cellClicked(pos);
+        }
+    }
+
+
+    @Override
+    public void buttonUpgradeClicked() {
+        ButtonUpgradeClickEvent e = new ButtonUpgradeClickEvent(this, this.activeFigurePosition);
+        for (var l: upgradeClickListeners){
+            l.buttonUpgradeClicked(e.getFigurePosition());
         }
     }
 }
