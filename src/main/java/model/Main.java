@@ -38,6 +38,18 @@ public class Main {
             InfoPanel infoPanel = new InfoPanel();
             boardPanel.setInfoPanel(infoPanel);
 
+            // Контейнер, в котором будут хранится доска и информационная панель
+            JPanel container = new JPanel(new BorderLayout());
+
+            container.add(boardPanel, BorderLayout.CENTER);
+
+            Dimension infoSize = new Dimension(200, 0);
+            infoPanel.setPreferredSize(infoSize);
+            infoPanel.setMinimumSize(infoSize);
+            infoPanel.setMaximumSize(new Dimension(200, Integer.MAX_VALUE));
+
+            container.add(infoPanel, BorderLayout.EAST);
+
             // Модель слушает GUI
             boardPanel.addBoardClickListener(new BoardClickListener() {
                 @Override
@@ -87,10 +99,8 @@ public class Main {
                 }
             });
 
-
-            frame.add(boardPanel, BorderLayout.CENTER);
-            frame.add(infoPanel, BorderLayout.EAST);
-
+            
+            frame.getContentPane().add(container);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
