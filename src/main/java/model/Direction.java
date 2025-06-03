@@ -91,9 +91,4 @@ public enum Direction {
         NORTHWEST.opposite = SOUTHEAST;
     }
 
-    /**
-     * Получить противоположное направление.
-     * @return противоположное направление
-     */
-    public Direction getOppositeDirection() { return opposite; }
 }

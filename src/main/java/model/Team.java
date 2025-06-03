@@ -85,20 +85,6 @@ public class Team {
         return "Undefined";
     }
 
-
-    /**
-     * Получить фигуру по ячейке
-     * @param targetCell искомая ячейка
-     */
-    private Figure getFigureByCell(Cell targetCell){
-        for(Figure figure: this.figureList){
-            if (targetCell.getPosition().equals(figure.getCell().getPosition())){
-                return figure;
-            }
-        }
-        return null;
-    }
-
     /**
      * Может ли команда атаковать вражеского короля
      * @param enemyKingCell ячейка вражеского короля
