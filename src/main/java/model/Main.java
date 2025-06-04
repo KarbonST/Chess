@@ -93,7 +93,7 @@ public class Main {
             game.addGameFinishActionListener(new GameStatusActionListener() {
                 @Override
                 public void gameFinishInDraw(GameStatusDrawEvent e) {
-                    JOptionPane.showMessageDialog(frame, "Ничья!");
+                    JOptionPane.showMessageDialog(frame, "Пат!");
                 }
                 @Override
                 public void gameFinishWithWinner(GameStatusWinnerEvent e) {

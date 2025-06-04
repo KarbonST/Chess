@@ -14,7 +14,7 @@ public class Bishop extends Figure{
 
     public Bishop(Team team) {
         super(team);
-        this.lives = 6;
+        this.lives = 5;
         this.movementRadius = Board.getBoardSize();
         this.attackRadius = Board.getBoardSize();
         this.shiftPerStep = new int[][] { {1,1} };
