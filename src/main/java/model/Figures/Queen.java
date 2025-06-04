@@ -15,6 +15,7 @@ public class Queen extends Figure{
     public Queen(Team team) {
         super(team);
         this.lives = 8;
+        this.upgradeDamage = 4;
         this.movementRadius = Board.getBoardSize();
         this.attackRadius = Board.getBoardSize();
         this.shiftPerStep = new int[][] { {1,1} };
@@ -28,6 +29,11 @@ public class Queen extends Figure{
     @Override
     public FiguresTypes getFigureType() {
         return FiguresTypes.QUEEN;
+    }
+
+    @Override
+    public FiguresTypes getUpgradeFigureType() {
+        return null;
     }
 
     @Override

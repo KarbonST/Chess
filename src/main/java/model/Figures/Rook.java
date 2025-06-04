@@ -15,6 +15,7 @@ public class Rook extends Figure{
     public Rook(Team team) {
         super(team);
         this.lives = 6;
+        this.upgradeDamage = 3;
         this.movementRadius = Board.getBoardSize();
         this.attackRadius = Board.getBoardSize();
         this.shiftPerStep = new int[][] { {1,1} };
@@ -28,6 +29,11 @@ public class Rook extends Figure{
     @Override
     public FiguresTypes getFigureType() {
         return FiguresTypes.ROOK;
+    }
+
+    @Override
+    public FiguresTypes getUpgradeFigureType() {
+        return null;
     }
 
     @Override

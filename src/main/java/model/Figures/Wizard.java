@@ -12,6 +12,7 @@ public class Wizard extends Figure{
     public Wizard(Team team) {
         super(team);
         this.canJumpOver = true;
+        this.upgradeDamage = 1;
         this.movementRadius = 2;
         this.attackRadius = 2;
         this.shiftPerStep = new int[][] { {1,1} };
@@ -25,6 +26,11 @@ public class Wizard extends Figure{
     @Override
     public FiguresTypes getFigureType() {
         return FiguresTypes.WIZARD;
+    }
+
+    @Override
+    public FiguresTypes getUpgradeFigureType() {
+        return null;
     }
 
     @Override

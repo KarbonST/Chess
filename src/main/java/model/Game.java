@@ -391,21 +391,24 @@ public class Game {
      */
     public void upgradeFigure(){
 
-        // Активная фигура - не пешка
-        if (this.activeFigure.getFigureType() != FiguresTypes.PAWN){
+        // Уже был апгрейд
+        if (this.activeTeam.isUpgraded()){
             return;
         }
 
-        // Запоминаем ячейку активной фигуры и её количество жизней
-        Cell activeFigureCell = activeFigure.getCell();
-        int activeFigureHp = activeFigure.getLives();
+        // Получить тип фигуры, в который делаем апгрейд
+        FiguresTypes upgradeFigureType = this.activeFigure.getUpgradeFigureType();
 
-        // "Убиваем" активную фигуру (пешку) и создаем новую (волшебника)
+        // Запоминаем ячейку активной фигуры и её количество жизней после апргрейда
+        Cell activeFigureCell = activeFigure.getCell();
+        int activeFigureHp = activeFigure.getLives() - activeFigure.getUpgradeDamage();
+
+        // "Убиваем" активную фигуру и создаем новую
         this.activeFigure.die();
-        Figure wizard = FiguresFactory.createFigure(FiguresTypes.WIZARD, this.activeTeam);
-        wizard.setLives(activeFigureHp - 2);
-        wizard.setCell(activeFigureCell);
-        wizard.setTeam(this.activeTeam);
+        Figure figure = FiguresFactory.createFigure(upgradeFigureType, this.activeTeam);
+        figure.setLives(activeFigureHp);
+        figure.setCell(activeFigureCell);
+        figure.setTeam(this.activeTeam);
         this.activeTeam.setUpgraded(true);
 
         // Рассылаем события об апгрейде фигуры

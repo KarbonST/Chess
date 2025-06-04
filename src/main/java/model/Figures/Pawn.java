@@ -18,6 +18,7 @@ public class Pawn extends Figure{
     public Pawn(Team team) {
         super(team);
         this.lives = 6;
+        this.upgradeDamage = 2;
         this.movementRadius = 2;
         this.attackRadius = 1;
         this.shiftPerStep = new int[][] { {1,1} };
@@ -38,6 +39,11 @@ public class Pawn extends Figure{
     @Override
     public FiguresTypes getFigureType() {
         return FiguresTypes.PAWN;
+    }
+
+    @Override
+    public FiguresTypes getUpgradeFigureType() {
+        return FiguresTypes.WIZARD;
     }
 
     @Override

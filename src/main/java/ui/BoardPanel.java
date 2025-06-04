@@ -225,7 +225,7 @@ public class BoardPanel extends JPanel implements CellClickListener, InfoPanelBu
      * Произошел апгрейд фигуры в модели
      */
     public void upgradeFigure(){
-        // Меняем иконку на мага
+        // Меняем иконку
         CellUI cellUI = cells[this.activeFigurePosition.getRow()][this.activeFigurePosition.getCol()];
         cellUI.setFigureIcon(null);
 

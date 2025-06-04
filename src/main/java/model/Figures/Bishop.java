@@ -15,6 +15,7 @@ public class Bishop extends Figure{
     public Bishop(Team team) {
         super(team);
         this.lives = 5;
+        this.upgradeDamage = 1;
         this.movementRadius = Board.getBoardSize();
         this.attackRadius = Board.getBoardSize();
         this.shiftPerStep = new int[][] { {1,1} };
@@ -28,6 +29,11 @@ public class Bishop extends Figure{
     @Override
     public FiguresTypes getFigureType() {
         return FiguresTypes.BISHOP;
+    }
+
+    @Override
+    public FiguresTypes getUpgradeFigureType() {
+        return null;
     }
 
     @Override

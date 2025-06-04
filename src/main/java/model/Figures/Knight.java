@@ -14,6 +14,7 @@ public class Knight extends Figure{
     public Knight(Team team) {
         super(team);
         this.lives = 5;
+        this.upgradeDamage = 2;
         this.movementRadius = 1;
         this.attackRadius = 1;
         this.shiftPerStep = new int[][] { {1,2}, {2,1} };
@@ -30,6 +31,11 @@ public class Knight extends Figure{
     @Override
     public FiguresTypes getFigureType() {
         return FiguresTypes.KNIGHT;
+    }
+
+    @Override
+    public FiguresTypes getUpgradeFigureType() {
+        return null;
     }
 
     @Override

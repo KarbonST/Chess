@@ -19,9 +19,14 @@ public abstract class Figure {
     protected Team team;
 
     /**
-     * Количество жизненей
+     * Количество жизней
      */
     protected int lives;
+
+    /**
+     * Количество жизней, которые отнимаются при апргрейде
+     */
+    protected int upgradeDamage;
 
     /**
      * Может ли фигура "перепрыгивать" другие фигуры
@@ -119,6 +124,12 @@ public abstract class Figure {
     public abstract FiguresTypes getFigureType();
 
     /**
+     * Вернуть фигуру, в которую фигура может сделать Upgrade
+     * @return тип фигуры
+     */
+    public abstract FiguresTypes getUpgradeFigureType();
+
+    /**
      * Задать ячейку фигуре
      * @param cell ячейка
      */
@@ -178,6 +189,14 @@ public abstract class Figure {
         if (getLives() != Integer.MAX_VALUE){
             this.lives = lives - damage;
         }
+    }
+
+    /**
+     * Получить урон, который наносится при апргрейде
+     * @return урон
+     */
+    public int getUpgradeDamage(){
+        return this.upgradeDamage;
     }
 
     /**
