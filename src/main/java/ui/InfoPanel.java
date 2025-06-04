@@ -101,13 +101,8 @@ public class InfoPanel extends JPanel {
             livesLabel.setText("Жизней: " + figure.getLives());
         }
 
-        // Активизировать кнопку Upgrade для пешки если ещё не нажимали кнопку
-        if (figure.getFigureType() == FiguresTypes.PAWN && !figure.getTeam().isUpgraded()){
-            upgradeButton.setEnabled(true);
-        }
-        else{
-            upgradeButton.setEnabled(false);
-        }
+        // Активизировать кнопку Upgrade для фигур, если ещё не нажимали кнопку для команды
+        upgradeButton.setEnabled(figure.getUpgradeFigureType() != null && !figure.getTeam().isUpgraded());
     }
 
     /**
