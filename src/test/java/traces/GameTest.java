@@ -102,6 +102,11 @@ class GameTest {
             lastTo = e.getTo().getPosition();
         }
 
+        @Override
+        public void figureDeadFromItself(FigureDeadFromItselfEvent figureDeadFromItselfEvent) {
+            return;
+        }
+
         @Override public void figureDeactivated(model.events.FigureClearSelectedEvent e) {}
 
         /** Обнуляет все счётчики и сохранённые позиции */

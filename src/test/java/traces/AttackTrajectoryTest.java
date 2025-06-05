@@ -30,6 +30,11 @@ class AttackTrajectoryTest {
         }
 
         @Override
+        public FiguresTypes getUpgradeFigureType() {
+            return null;
+        }
+
+        @Override
         public Figure cloneFigure() {
             return new DummyFigure(getTeam());
         }

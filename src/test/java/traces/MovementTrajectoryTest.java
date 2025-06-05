@@ -30,6 +30,11 @@ class MovementTrajectoryTest {
         }
 
         @Override
+        public FiguresTypes getUpgradeFigureType() {
+            return null;
+        }
+
+        @Override
         public Figure cloneFigure() {
             return new DummyFigure(team);
         }

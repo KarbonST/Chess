@@ -391,13 +391,18 @@ public class Game {
      */
     public void upgradeFigure(){
 
-        // Уже был апгрейд
-        if (this.activeTeam.isUpgraded()){
+        // Уже был апгрейд или нет активной фигуры
+        if (this.activeTeam.isUpgraded() || this.activeFigure == null){
             return;
         }
 
         // Получить тип фигуры, в который делаем апгрейд
         FiguresTypes upgradeFigureType = this.activeFigure.getUpgradeFigureType();
+
+        // Фигура ни в кого не может быть апгрейднута
+        if (upgradeFigureType == null){
+            return;
+        }
 
         // Запоминаем ячейку активной фигуры и её количество жизней после апргрейда
         Cell activeFigureCell = activeFigure.getCell();

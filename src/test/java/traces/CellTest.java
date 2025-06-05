@@ -27,6 +27,11 @@ class CellTest {
         }
 
         @Override
+        public FiguresTypes getUpgradeFigureType() {
+            return null;
+        }
+
+        @Override
         public Figure cloneFigure(){
             return new DummyFigure(this.team);
         }
