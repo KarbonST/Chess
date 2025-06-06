@@ -35,7 +35,7 @@ public class Knight extends Figure{
 
     @Override
     public FiguresTypes getUpgradeFigureType() {
-        return null;
+        return FiguresTypes.BishopKnight;
     }
 
     @Override
