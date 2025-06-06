@@ -408,6 +408,7 @@ public class Game {
         Cell activeFigureCell = activeFigure.getCell();
         int activeFigureHp = activeFigure.getLives() - activeFigure.getUpgradeDamage();
 
+        
         // "Убиваем" активную фигуру и создаем новую
         this.activeFigure.die();
         Figure figure = FiguresFactory.createFigure(upgradeFigureType, this.activeTeam);
